@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/helpZoneFragment">
+
+    <fragment
+        android:id="@+id/loginInAppFragment"
+        android:name="com.davichois.ceis.presentation.login_management.view.LoginInAppFragment"
+        android:label="fragment_login_in_app"
+        tools:layout="@layout/fragment_login_in_app" >
+        <action
+            android:id="@+id/action_loginInAppFragment_to_basicInformationFragment"
+            app:destination="@id/basicInformationFragment" />
+        <action
+            android:id="@+id/action_loginInAppFragment_to_homeChooseEventFragment"
+            app:destination="@id/homeChooseEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/basicInformationFragment"
+        android:name="com.davichois.ceis.presentation.login_management.view.BasicInformationFragment"
+        android:label="fragment_basic_information"
+        tools:layout="@layout/fragment_basic_information" />
+    <fragment
+        android:id="@+id/homeChooseEventFragment"
+        android:name="com.davichois.ceis.presentation.event_management.view.HomeChooseEventFragment"
+        android:label="fragment_home_choose_event"
+        tools:layout="@layout/fragment_home_choose_event" />
+    <fragment
+        android:id="@+id/eventGeneralScannerFragment"
+        android:name="com.davichois.ceis.presentation.event_management.view.EventGeneralScannerFragment"
+        android:label="fragment_event_general_scanner"
+        tools:layout="@layout/fragment_event_general_scanner" />
+    <fragment
+        android:id="@+id/detailsChosenEventFragment"
+        android:name="com.davichois.ceis.presentation.event_management.view.DetailsChosenEventFragment"
+        android:label="fragment_details_chosen_event"
+        tools:layout="@layout/fragment_details_chosen_event" >
+        <action
+            android:id="@+id/action_detailsChosenEventFragment_to_eventGeneralScannerFragment"
+            app:destination="@id/eventGeneralScannerFragment" />
+        <action
+            android:id="@+id/action_detailsChosenEventFragment_to_eventAlphanumericCodeFragment"
+            app:destination="@id/eventAlphanumericCodeFragment" />
+        <argument
+            android:name="eventCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailsChosenEventFragment_to_ticketEventGeneralFragment"
+            app:destination="@id/ticketEventGeneralFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventAlphanumericCodeFragment"
+        android:name="com.davichois.ceis.presentation.event_management.view.EventAlphanumericCodeFragment"
+        android:label="fragment_event_alphanumeric_code"
+        tools:layout="@layout/fragment_event_alphanumeric_code" />
+    <fragment
+        android:id="@+id/ticketEventGeneralFragment"
+        android:name="com.davichois.ceis.presentation.ticket_management.view.TicketEventGeneralFragment"
+        android:label="fragment_ticket_event_general"
+        tools:layout="@layout/fragment_ticket_event_general" />
+    <fragment
+        android:id="@+id/helpZoneFragment"
+        android:name="com.davichois.ceis.HelpZoneFragment"
+        android:label="fragment_help_zone"
+        tools:layout="@layout/fragment_help_zone" >
+        <action
+            android:id="@+id/action_helpZoneFragment_to_loginInAppFragment"
+            app:destination="@id/loginInAppFragment" />
+    </fragment>
+</navigation>

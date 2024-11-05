@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:autoTransition="animateToEnd"
+        motion:duration="2000">
+       <KeyFrameSet>
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_c"
+               motion:framePosition="0"
+               android:translationY="-5dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_c"
+               motion:framePosition="5"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_e"
+               motion:framePosition="5"
+               android:translationY="-5dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_e"
+               motion:framePosition="10"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_i"
+               motion:framePosition="10"
+               android:translationY="-5dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_i"
+               motion:framePosition="15"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_s"
+               motion:framePosition="15"
+               android:translationY="-5dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_s"
+               motion:framePosition="20"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_point"
+               motion:framePosition="20"
+               android:translationY="-15dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_point"
+               motion:framePosition="35"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_point"
+               motion:framePosition="65"
+               android:translationY="0dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_point"
+               motion:framePosition="50"
+               android:translationY="-15dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_point"
+               motion:framePosition="80"
+               android:translationY="-15dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_conf"
+               motion:framePosition="30"
+               android:rotation="-232"
+               android:rotationX="-224"
+               android:rotationY="66" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_conf"
+               motion:framePosition="75"
+               android:rotationX="0"
+               android:rotationY="0"
+               android:rotation="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/letter_point"
+               motion:framePosition="95"
+               android:translationY="0dp" />
+       </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@+id/letter_c"
+            motion:layout_constraintEnd_toStartOf="@id/letter_e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationY="0dp" />
+        <Constraint
+            android:id="@+id/letter_e"
+            motion:layout_constraintEnd_toStartOf="@id/letter_i"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationY="0dp" />
+        <Constraint
+            android:id="@+id/letter_i"
+            motion:layout_constraintEnd_toStartOf="@id/letter_s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationY="0dp" />
+        <Constraint
+            android:id="@+id/letter_s"
+            motion:layout_constraintEnd_toStartOf="@id/letter_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationY="0dp" />
+        <Constraint
+            android:id="@+id/letter_point"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:translationY="0dp"
+            motion:layout_constraintHorizontal_bias="0.55" />
+        <Constraint
+            android:id="@+id/letter_conf"
+            motion:layout_constraintStart_toEndOf="@id/letter_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:rotationX="0"
+            android:rotationY="0"
+            android:rotation="0" />
+    </ConstraintSet>
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:autoTransition="animateToEnd" />
+</MotionScene>

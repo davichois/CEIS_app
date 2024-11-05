@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_50"
+    app:layoutDescription="@xml/fragment_help_zone_scene"
+    tools:context=".HelpZoneFragment">
+
+    <TextView
+        android:id="@+id/letter_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/dm_sans_black"
+        android:text="C"
+        android:textColor="@color/blue_600"
+        android:textSize="@dimen/_40ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/letter_e"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/letter_i"
+        android:id="@+id/letter_e"
+        android:textColor="@color/blue_600"
+        android:textSize="@dimen/_40ssp"
+        android:fontFamily="@font/dm_sans_black"
+        android:text="E"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/letter_s"
+        android:id="@+id/letter_i"
+        android:textColor="@color/blue_600"
+        android:textSize="@dimen/_40ssp"
+        android:fontFamily="@font/dm_sans_black"
+        android:text="I"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/letter_point"
+        android:id="@+id/letter_s"
+        android:textColor="@color/blue_600"
+        android:textSize="@dimen/_40ssp"
+        android:fontFamily="@font/dm_sans_black"
+        android:text="S"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/letter_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/dm_sans_black"
+        app:layout_constraintHorizontal_bias="0.55"
+        android:text="."
+        android:textColor="@color/blue_600"
+        android:textSize="@dimen/_40ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/letter_conf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/geist_mono_bold"
+        android:text="@string/conf"
+        android:textColor="@color/blue_900"
+        android:textSize="@dimen/_15ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/letter_point"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

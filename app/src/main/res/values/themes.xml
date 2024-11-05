@@ -1,0 +1,35 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CEIS" parent="Theme.Material3.DayNight.NoActionBar">
+        !-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue_50</item>
+        <item name="colorPrimaryVariant">@color/blue_50</item>
+        <item name="colorOnPrimary">@color/blue_50</item>
+        <!-- Secondary brand color.-->
+        <item name="colorSecondary">@color/blue_50</item>
+        <item name="colorSecondaryVariant">@color/blue_50</item>
+        <item name="colorOnSecondary">@color/blue_50</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="roundImageView" parent="">
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="color">@color/blue_50</item>
+    </style>
+
+    <style name="roundImageSpeakersCards" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/_10sdp</item>
+        <item name="cornerSizeTopRight">@dimen/_10sdp</item>
+        <item name="cornerSizeBottomLeft">@dimen/_10sdp</item>
+        <item name="cornerSizeBottomRight">@dimen/_10sdp</item>
+        <item name="color">@color/blue_50</item>
+    </style>
+
+    <style name="Theme.CEIS" parent="Base.Theme.CEIS" />
+</resources>

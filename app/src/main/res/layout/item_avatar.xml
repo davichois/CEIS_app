@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_marginEnd="@dimen/_15sdp"
+    android:clickable="true"
+    android:layout_height="wrap_content"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ivGetProfilePicture"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="centerInside"
+        android:focusable="true"
+        android:clickable="true"
+        app:shapeAppearanceOverlay="@style/roundImageView"
+        android:background="@color/blue_50">
+
+        <app.rive.runtime.kotlin.RiveAnimationView
+            android:id="@+id/rive_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            app:riveResource="@raw/andrea" />
+
+        <ImageView
+            android:contentDescription="@string/backstage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            android:src="@drawable/ic_auto_awesome"
+            android:contextClickable="true"
+            android:background="@drawable/cf_ripple_pulse_avatar_selected"
+            android:padding="@dimen/_3sdp"
+            android:id="@+id/selected_item"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
