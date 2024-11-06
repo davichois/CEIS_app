@@ -17,8 +17,7 @@ interface EventAPI {
         @Query("code") code: String,
     ): ResponseAPI<GenerateCodeDTO>
 
-    // Si vuelve a realizar peticion = 300 http
-    @POST("event/assistance")
+    @POST("event/stamp")
     suspend fun postAttendanceRecorder(
         @Query("token") token: String,
         @Query("dni") dni: String,
@@ -26,30 +25,38 @@ interface EventAPI {
     ): ResponseAPI<AttendanceRegisterDTO>
 
     // Si vuelve a realizar peticion = 300 http
-    @POST("event/assistance")
-    suspend fun postCodeSupportRecorder(
+    @POST("event/booking")
+    suspend fun postBookingRecorder(
         @Query("token") token: String,
-        @Query("codeAssistance") codeAssistance: String
+        @Query("dni") dni: String,
+        @Query("code") code: String,
     ): ResponseAPI<AttendanceRegisterDTO>
 
     // Evento por codigo
-    // TODO: IMPLEMENT
     @GET("event/filters")
     suspend fun getEventForCode(
         @Query("token") token: String,
         @Query("code") code: String
     ): ResponseAPI<EventDTO>
 
-    // Evento por dia
-    // TODO: IMPLEMENT
+    // Evento por dia con filter
     @GET("event/filters")
     suspend fun getEventForDay(
         @Query("token") token: String,
-        @Query("day") day: String
+        @Query("day") day: String,
+        @Query("type") type: String
     ): ResponseAPI<List<EventDTO>>
 
+    // Si vuelve a realizar peticion = 300 http
+    // NOT USE IMPLEMENT
+    @POST("event/stamp")
+    suspend fun postCodeSupportRecorder(
+        @Query("token") token: String,
+        @Query("codeAssistance") codeAssistance: String
+    ): ResponseAPI<AttendanceRegisterDTO>
+
     // Todos los Evento
-    // TODO: IMPLEMENT
+    // NOT USE IMPLEMENT
     @GET("event/filters")
     suspend fun getEventForAll(
         @Query("token") token: String

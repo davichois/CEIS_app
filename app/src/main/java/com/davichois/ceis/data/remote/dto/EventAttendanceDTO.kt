@@ -4,6 +4,7 @@ data class EventAttendanceDTO(
     val id: Long,
     val name: String,
     val date: String,
+    val endDate: String,
     val place: String,
     val code: String,
     val modality: String,

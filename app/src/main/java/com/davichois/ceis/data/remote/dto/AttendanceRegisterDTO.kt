@@ -4,5 +4,6 @@ data class AttendanceRegisterDTO (
     val id: Long,
     val date: String,
     val user: UserDTO,
-    val event: EventAttendanceDTO
+    val event: EventAttendanceDTO,
+    val confirm: Boolean
 )

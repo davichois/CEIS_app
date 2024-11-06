@@ -177,8 +177,10 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            app:layout_constraintVertical_bias="0.2"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+            app:layout_constraintVertical_bias="0"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_100sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/place_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -326,6 +328,73 @@
                 android:layout_height="wrap_content"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            app:layout_constraintBottom_toTopOf="@id/access_master"
+            android:textAlignment="center"
+            android:textColor="@color/blue_900"
+            android:textSize="@dimen/_15ssp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fontFamily="@font/dm_sans_extra_bold"
+            android:id="@+id/code_event"
+            android:visibility="invisible"
+            android:text="C3I5G04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+            android:background="@drawable/cf_ripple_pulse_avatar_selected"
+            android:orientation="horizontal"
+            android:id="@+id/access_master"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:contentDescription="@string/dash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:contextClickable="true"
+                android:background="@drawable/cf_ripple_pulse"
+                android:id="@+id/iv_qr_generate_master"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_qr_code_scanner"/>
+
+            <ImageView
+                android:contentDescription="@string/dash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:contextClickable="true"
+                android:background="@drawable/cf_ripple_pulse"
+                android:id="@+id/iv_code_alpha_master"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_code_alpha_numeric"/>
+
+            <ImageView
+                android:contentDescription="@string/dash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:contextClickable="true"
+                android:background="@drawable/cf_ripple_pulse"
+                android:id="@+id/iv_code_computer_master"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_computer"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.constraintlayout.widget.Guideline
             app:layout_constraintGuide_percent="0.05"

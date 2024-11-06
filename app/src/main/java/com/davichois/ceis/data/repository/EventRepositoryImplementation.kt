@@ -5,6 +5,8 @@ import com.davichois.ceis.data.remote.EventAPI
 import com.davichois.ceis.data.remote.dto.AttendanceRegisterDTO
 import com.davichois.ceis.data.remote.dto.EventDTO
 import com.davichois.ceis.data.remote.dto.GenerateCodeDTO
+import com.davichois.ceis.data.remote.dto.toEventModel
+import com.davichois.ceis.domain.model.EventModel
 import com.davichois.ceis.domain.repository.EventRepository
 import retrofit2.HttpException
 import java.io.IOException
@@ -50,9 +52,6 @@ class EventRepositoryImplementation(
                     val result =
                         api.postAttendanceRecorder(token, dni, code).data
                     Resource.Success(data = result)
-                }
-                300 -> {
-                    Resource.Error(message = e.localizedMessage ?: "Duplicate registration")
                 }
                 else -> Resource.Error(message = e.localizedMessage ?: "An unexpected error")
             }
@@ -105,15 +104,15 @@ class EventRepositoryImplementation(
         }
     }
 
-    override suspend fun getEventForDay(token: String, day: String): Resource<List<EventDTO>> {
+    override suspend fun getEventForDay(token: String, day: String, type: String): Resource<List<EventModel>> {
         return try {
             val result =
-                api.getEventForDay(token, day).data
+                api.getEventForDay(token, day, type = type).data.map { eventDTO -> eventDTO.toEventModel() }
             Resource.Success(data = result)
         } catch (e: HttpException) {
             if (e.code() == 401) {
                 val result =
-                    api.getEventForDay(token, day).data
+                    api.getEventForDay(token, day, type = type).data.map { eventDTO -> eventDTO.toEventModel() }
                 Resource.Success(data = result)
             } else {
                 Resource.Error(message = e.localizedMessage ?: "An unexpected error")
@@ -135,6 +134,32 @@ class EventRepositoryImplementation(
                 Resource.Success(data = result)
             } else {
                 Resource.Error(message = e.localizedMessage ?: "An unexpected error")
+            }
+        } catch (e: IOException) {
+            Resource.Error(message = "Couldn't reach server")
+        }
+    }
+
+    override suspend fun postBookingRecorder(
+        token: String,
+        dni: String,
+        code: String
+    ): Resource<AttendanceRegisterDTO> {
+        return try {
+            val result =
+                api.postBookingRecorder(token, dni, code).data
+            Resource.Success(data = result)
+        } catch (e: HttpException) {
+            when(e.code()){
+                401 -> {
+                    val result =
+                        api.postBookingRecorder(token, dni, code).data
+                    Resource.Success(data = result)
+                }
+                300 -> {
+                    Resource.Error(message = e.localizedMessage ?: "Duplicate registration")
+                }
+                else -> Resource.Error(message = e.localizedMessage ?: "An unexpected error")
             }
         } catch (e: IOException) {
             Resource.Error(message = "Couldn't reach server")

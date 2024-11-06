@@ -50,11 +50,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:contentDescription="@string/share"
-                android:src="@drawable/ic_auto_awesome"
+                android:src="@drawable/ic_info"
                 android:contextClickable="true"
                 android:background="@drawable/cf_ripple_pulse"
                 android:padding="@dimen/_5sdp"
-                android:id="@+id/generate_ticket"
+                android:id="@+id/information_rule"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"/>
 

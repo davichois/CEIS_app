@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.davichois.ceis.R
 import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.core.util.hideKeyboard
@@ -18,6 +19,9 @@ import com.davichois.ceis.databinding.FragmentLoginInAppBinding
 import com.davichois.ceis.presentation.login_management.view_model.LoginManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
@@ -61,25 +65,77 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
                     is Resource.Loading -> {
                         binding?.contentLIA?.visibility = View.GONE
                         binding?.loadShimmerLIA?.visibility = View.VISIBLE
-                        Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
 
                     }
                     is Resource.Success -> {
                         binding?.contentLIA?.visibility = View.VISIBLE
                         binding?.loadShimmerLIA?.visibility = View.GONE
-                        Toast.makeText(requireActivity(), "correcto", Toast.LENGTH_LONG).show()
 
+                        val currentTime = Calendar.getInstance()
+                        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        val formattedDate = dateFormat.format(currentTime.time)
+                        val dayCurrent = formattedDate.split("/")[0].trim()
+
+                        loginManagementViewModel.navigateForUse(day = dayCurrent)
+                        /*if (state.data.avatar.isNullOrEmpty()){
+                            loginManagementViewModel.navigateForUse(existsApplication = false, day = dayCurrent)
+                            // Toast.makeText(requireActivity(), "not exist", Toast.LENGTH_LONG).show()
+                            // Toast.makeText(requireActivity(), "${state.data.avatar} - $dayCurrent", Toast.LENGTH_LONG).show()
+                        } else {
+                            loginManagementViewModel.navigateForUse(existsApplication = true, day = dayCurrent)
+                            //Toast.makeText(requireActivity(), "exist", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(requireActivity(), "${state.data.avatar} - $dayCurrent", Toast.LENGTH_LONG).show()
+                        }*/
                     }
                     is Resource.Error -> {
                         binding?.contentLIA?.visibility = View.VISIBLE
                         binding?.loadShimmerLIA?.visibility = View.GONE
-                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
-
+                        //Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
                     }
 
                     Resource.PreLoad -> Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+
+        lifecycleScope.launch {
+            loginManagementViewModel.uiStateNavigate.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        binding?.contentLIA?.visibility = View.GONE
+                        binding?.loadShimmerLIA?.visibility = View.VISIBLE
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
+                    }
+                    is Resource.Success -> {
+                        binding?.contentLIA?.visibility = View.VISIBLE
+                        binding?.loadShimmerLIA?.visibility = View.GONE
+                        when(state.data){
+                            1 -> {
+                                val action = LoginInAppFragmentDirections.actionLoginInAppFragmentToHomeChooseEventFragment()
+                                findNavController().navigate(action)
+                            }
+                            2 -> {
+                                val action = LoginInAppFragmentDirections.actionLoginInAppFragmentToHomeEventFragment()
+                                findNavController().navigate(action)
+                            }
+                            else -> {
+                                Toast.makeText(requireActivity(), "CEIS ya termino", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                    is Resource.Error -> {
+                        // REDIRECT IF CEIS FINISH
+                        binding?.contentLIA?.visibility = View.VISIBLE
+                        binding?.loadShimmerLIA?.visibility = View.GONE
+                        Toast.makeText(requireActivity(), state.message, Toast.LENGTH_LONG).show()
+
+                    }
+
+                    Resource.PreLoad -> Toast.makeText(requireActivity(), "Precargando elecciones", Toast.LENGTH_LONG).show()
+                }
+            }
+
         }
 
     }

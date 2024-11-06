@@ -7,12 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.davichois.ceis.R
+import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.databinding.FragmentHomeChooseEventBinding
+import com.davichois.ceis.domain.model.EventModel
 import com.davichois.ceis.presentation.event_management.adapter.choose_event.ChooseEventAdapter
 import com.davichois.ceis.presentation.event_management.dto_pru.Evento
+import com.davichois.ceis.presentation.event_management.view_model.EventManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
@@ -20,24 +27,10 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
     private var _binding: FragmentHomeChooseEventBinding? = null
     private val binding get() = _binding
 
-    private var eventosList: List<Evento> = listOf(
-        Evento(id = 1, tipo = "SESTONES_PARALELAS", nombre = "Apertura del Evento A"),
-        Evento(id = 2, tipo = "SESTONES_PARALELAS", nombre = "Apertura del Evento B"),
-        Evento(id = 3, tipo = "TALLERES", nombre = "Congreso A"),
-        Evento(id = 4, tipo = "TALLERES", nombre = "Congreso B"),
-        Evento(id = 5, tipo = "COLOQUIO", nombre = "Congreso C"),
-        Evento(id = 6, tipo = "COLOQUIO", nombre = "Congreso D"),
-        Evento(id = 7, tipo = "COLOQUIO", nombre = "Congreso E"),
-        Evento(id = 8, tipo = "COLOQUIO", nombre = "Inicio del Proyecto A")
-    )
+    // Injection view model
+    private val eventManagementViewModel: EventManagementViewModel by viewModels()
 
-    private val condiciones = mapOf(
-        "SESTONES_PARALELAS" to 2,
-        "TALLERES" to 2,
-        "COLOQUIO" to 2
-    )
-
-    private val eventsChose = mutableListOf<Evento>()
+    private val eventsChose = mutableListOf<EventModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,41 +49,51 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
         super.onViewCreated(view, savedInstanceState)
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
-        initRecyclerView()
-    }
 
-    private fun initRecyclerView() {
-        val manager = LinearLayoutManager(context)
-        binding?.rvListEventChoose?.layoutManager = manager
+        eventManagementViewModel.getEventForChooseForDay("13")
 
-        binding?.rvListEventChoose?.adapter = ChooseEventAdapter(eventosList) { evento, isChecked ->
-            manejarSeleccion(evento, isChecked)
+        lifecycleScope.launch {
+            eventManagementViewModel.uiStateListEventChooseDay.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        Toast.makeText(requireActivity(), "correct ${state.data.size}", Toast.LENGTH_SHORT).show()
+                        initRecyclerView(eventList = state.data)
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireActivity(), state.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    Resource.PreLoad -> Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-    private fun manejarSeleccion(evento: Evento, isChecked: Boolean) {
-        if (isChecked) {
-            if (puedeSeleccionar(evento)) {
-                evento.isSelected = true
-                eventsChose.add(evento)
-            } else {
-                evento.isSelected = false // Revertir selección si se excede el límite
-            }
+    private fun initRecyclerView(eventList: List<EventModel>) {
+        val manager = LinearLayoutManager(context)
+        binding?.rvListEventChoose?.layoutManager = manager
+
+        binding?.rvListEventChoose?.adapter = ChooseEventAdapter(eventList) { evento, isChecked ->
+            manageSelection(evento, isChecked)
+        }
+    }
+
+    private fun manageSelection(evento: EventModel, isChecked: Boolean) {
+        if (isChecked){
+            evento.isSelected = true
+            eventsChose.add(evento)
         } else {
             eventsChose.remove(evento)
             evento.isSelected = false
         }
-        mostrarEventosSeleccionados()
+        //viewEventsSelected()
     }
 
-    private fun puedeSeleccionar(evento: Evento): Boolean {
-        val conteoActual = eventsChose.count { it.tipo == evento.tipo }
-        val limite = condiciones[evento.tipo] ?: return false
-        return conteoActual < limite
-    }
-
-    private fun mostrarEventosSeleccionados() {
+    /*private fun viewEventsSelected() {
         Toast.makeText(requireActivity(), "Eventos seleccionados: ${eventsChose.size}", Toast.LENGTH_LONG).show()
-    }
+    }*/
 
 }

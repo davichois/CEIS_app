@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/ivQrCodeImage"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_250sdp"
         android:contentDescription="@string/codegenerator"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

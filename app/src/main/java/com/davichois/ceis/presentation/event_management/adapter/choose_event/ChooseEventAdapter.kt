@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.davichois.ceis.R
 import com.davichois.ceis.data.remote.dto.EventDTO
+import com.davichois.ceis.domain.model.EventModel
 import com.davichois.ceis.presentation.event_management.dto_pru.Evento
 import com.davichois.ceis.presentation.login_management.adapter.avatar.AvatarManagementViewHolder
 
 class ChooseEventAdapter(
-    private val events: List<Evento>,
-    private val onCheckedChangeListener: (Evento, Boolean) -> Unit
+    private val events: List<EventModel>,
+    private val onCheckedChangeListener: (EventModel, Boolean) -> Unit
 ): RecyclerView.Adapter<ChooseEventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseEventViewHolder {

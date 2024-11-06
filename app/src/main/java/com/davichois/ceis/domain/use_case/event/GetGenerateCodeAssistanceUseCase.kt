@@ -8,11 +8,9 @@ import javax.inject.Inject
 
 class GetGenerateCodeAssistanceUseCase @Inject constructor(
     private val repository: EventRepository,
-    private val preferencesRepository: PreferencesRepository
 ) {
 
-    suspend operator fun invoke(code: String): Resource<GenerateCodeDTO> {
-        val dni = preferencesRepository.getUserPreferences().dni
+    suspend operator fun invoke(code: String, dni: String): Resource<GenerateCodeDTO> {
         return repository.getGenerateCodeAssistance(token = "eyJ0b2tlbiI6ImJyaXRlQXBwIn0", dni = dni, code = code)
     }
 

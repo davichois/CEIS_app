@@ -9,5 +9,7 @@ data class UserDTO(
     val avatar: String? = null,
     val date: String,
     val isOpened: Boolean,
-    val gender: String? = null
+    val gender: String? = null,
+    val code: String,
+    val rol: String
 )

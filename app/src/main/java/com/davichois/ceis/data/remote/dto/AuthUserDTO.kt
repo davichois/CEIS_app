@@ -9,5 +9,7 @@ data class AuthUserDTO(
     val avatar: String?,
     val date: String,
     val isOpened: Boolean,
-    val gender: String?
+    val gender: String?,
+    val code: String,
+    val rol: String
 )

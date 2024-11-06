@@ -15,6 +15,7 @@ import com.davichois.ceis.presentation.login_management.dto.Avatar
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
+// Fragment not use
 @AndroidEntryPoint
 class BasicInformationFragment : Fragment(R.layout.fragment_basic_information) {
 

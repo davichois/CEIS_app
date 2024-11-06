@@ -1,10 +1,13 @@
 package com.davichois.ceis.data.remote
 
 import com.davichois.ceis.data.remote.dto.AuthUserDTO
+import com.davichois.ceis.data.remote.dto.EventDTO
 import com.davichois.ceis.data.remote.dto.ResponseAPI
 import com.davichois.ceis.data.remote.dto.UserCompleteDTO
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserAPI {
@@ -15,5 +18,12 @@ interface UserAPI {
         @Query("dni") dni: String,
         @Body userCompleteDTO: UserCompleteDTO,
     ): ResponseAPI<AuthUserDTO>
+
+    // TODO implement method
+    @GET("user/{dni}/get-records")
+    suspend fun getRecordsUser(
+        @Path("dni") dni: String,
+        @Query("day") day: String,
+    ): ResponseAPI<List<EventDTO>>
 
 }

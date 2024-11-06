@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/helpZoneFragment">
+    app:startDestination="@id/homeChooseEventFragment">
 
     <fragment
         android:id="@+id/loginInAppFragment"
@@ -11,27 +11,30 @@
         android:label="fragment_login_in_app"
         tools:layout="@layout/fragment_login_in_app" >
         <action
-            android:id="@+id/action_loginInAppFragment_to_basicInformationFragment"
-            app:destination="@id/basicInformationFragment" />
-        <action
             android:id="@+id/action_loginInAppFragment_to_homeChooseEventFragment"
             app:destination="@id/homeChooseEventFragment" />
+        <action
+            android:id="@+id/action_loginInAppFragment_to_homeEventFragment"
+            app:destination="@id/homeEventFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/basicInformationFragment"
-        android:name="com.davichois.ceis.presentation.login_management.view.BasicInformationFragment"
-        android:label="fragment_basic_information"
-        tools:layout="@layout/fragment_basic_information" />
     <fragment
         android:id="@+id/homeChooseEventFragment"
         android:name="com.davichois.ceis.presentation.event_management.view.HomeChooseEventFragment"
         android:label="fragment_home_choose_event"
-        tools:layout="@layout/fragment_home_choose_event" />
+        tools:layout="@layout/fragment_home_choose_event" >
+        <action
+            android:id="@+id/action_homeChooseEventFragment_to_homeEventFragment"
+            app:destination="@id/homeEventFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventGeneralScannerFragment"
         android:name="com.davichois.ceis.presentation.event_management.view.EventGeneralScannerFragment"
         android:label="fragment_event_general_scanner"
-        tools:layout="@layout/fragment_event_general_scanner" />
+        tools:layout="@layout/fragment_event_general_scanner" >
+        <action
+            android:id="@+id/action_eventGeneralScannerFragment_to_eventAttendanceStampFragment"
+            app:destination="@id/eventAttendanceStampFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailsChosenEventFragment"
         android:name="com.davichois.ceis.presentation.event_management.view.DetailsChosenEventFragment"
@@ -68,5 +71,32 @@
         <action
             android:id="@+id/action_helpZoneFragment_to_loginInAppFragment"
             app:destination="@id/loginInAppFragment" />
+        <action
+            android:id="@+id/action_helpZoneFragment_to_homeChooseEventFragment"
+            app:destination="@id/homeChooseEventFragment" />
+        <action
+            android:id="@+id/action_helpZoneFragment_to_homeEventFragment"
+            app:destination="@id/homeEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeEventFragment"
+        android:name="com.davichois.ceis.presentation.event_management.view.HomeEventFragment"
+        android:label="fragment_home_event"
+        tools:layout="@layout/fragment_home_event" >
+        <action
+            android:id="@+id/action_homeEventFragment_to_detailsChosenEventFragment"
+            app:destination="@id/detailsChosenEventFragment" />
+        <action
+            android:id="@+id/action_homeEventFragment_to_ticketEventGeneralFragment"
+            app:destination="@id/ticketEventGeneralFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventAttendanceStampFragment"
+        android:name="com.davichois.ceis.presentation.event_management.view.EventAttendanceStampFragment"
+        android:label="fragment_event_attendance_stamp"
+        tools:layout="@layout/fragment_event_attendance_stamp" >
+        <argument
+            android:name="eventCode"
+            app:argType="string" />
     </fragment>
 </navigation>

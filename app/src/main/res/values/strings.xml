@@ -12,7 +12,9 @@
     <string name="alert_send">Ingrese su numero de DNI si ya se registró en la CEIS.conf 2024.</string>
     <string name="dni">DNI*</string>
     <string name="join_now">UNIRSE AHORA</string>
+    <string name="generate_code">GENERAR CODIGO</string>
     <string name="alert_problem_login">en caso de problemas, comunicarse con el staff*</string>
+    <string name="alert_problem_generate_code">en caso de problemas, comunicarse con la directiva*</string>
     <string name="custom_experience">Personalizaremos tu experiencia</string>
     <string name="get_basic_information">Otorganos esta informacion basica.</string>
     <string name="finish_data_basic_information">continuar</string>
@@ -23,4 +25,7 @@
     <string name="dash">dash</string>
     <string name="sellar_asistencia">SELLAR ASISTENCIA</string>
     <string name="codegenerator">codeGenerator</string>
+    <string name="message_generate_code">Ingrese el número de DNI para generar el código de la web.</string>
+    <string name="alert_generate_code">Generador de código</string>
+    <string name="citse">CITSE</string>
 </resources>
