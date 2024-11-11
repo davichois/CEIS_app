@@ -13,384 +13,405 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="@drawable/cf_background_ticket"
-            app:layout_constraintVertical_bias="0.3"
-            app:layout_constraintTop_toBottomOf="@id/cl_header_home"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/contentTEG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/_5sdp"
-            android:id="@+id/cl_badge_ticket"
-            android:layout_width="@dimen/_280sdp"
-            android:layout_height="@dimen/_500sdp">
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
             <androidx.constraintlayout.widget.ConstraintLayout
-                app:layout_constraintTop_toTopOf="parent"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="@drawable/cf_background_ticket"
+                app:layout_constraintVertical_bias="0.3"
+                app:layout_constraintTop_toBottomOf="@id/cl_header_home"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0.07"
-                android:background="@drawable/cf_background_content_ticket_general"
-                android:id="@+id/cl_content_ticket"
-                android:layout_width="@dimen/_270sdp"
-                android:layout_height="@dimen/_400sdp">
+                android:layout_margin="@dimen/_5sdp"
+                android:id="@+id/cl_badge_ticket"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="@dimen/_500sdp">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ll_badges"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:textAlignment="center"
-                        android:textColor="#A6EDF1FD"
-                        android:textSize="@dimen/_9ssp"
-                        android:fontFamily="@font/geist_mono_medium"
-                        android:text="hoste by: "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView
-                        app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:textAlignment="center"
-                        android:textColor="#CCEDF1FD"
-                        android:textSize="@dimen/_12ssp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:text="@string/citse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    app:layout_constraintTop_toBottomOf="@id/ll_content_date"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/ll_badges"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:contentDescription="@string/share"
-                        android:src="@drawable/badges_adv"
-                        android:contextClickable="true"
-                        android:id="@+id/generate_ticket"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"/>
-
-                    <ImageView
-                        android:contentDescription="@string/share"
-                        android:src="@drawable/badges_coopac"
-                        android:contextClickable="true"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"/>
-
-                    <ImageView
-                        android:contentDescription="@string/share"
-                        android:src="@drawable/badges_fia"
-                        android:contextClickable="true"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"/>
-
-                    <ImageView
-                        android:contentDescription="@string/share"
-                        android:src="@drawable/badges_upeu"
-                        android:contextClickable="true"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/ll_logo_ceis"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.3"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        app:shapeAppearanceOverlay="@style/roundImageView"
-                        android:id="@+id/ivGetProfilePicture"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
-                        android:scaleType="centerInside"
-                        android:backgroundTint="@color/blue_300"
-                        android:background="@drawable/cf_ripple_pulse">
-
-                        <ImageView
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:contentDescription="@string/share"
-                            android:src="@drawable/ic_account"
-                            android:contextClickable="true"
-                            android:layout_width="@dimen/_10sdp"
-                            android:layout_height="@dimen/_10sdp"/>
-
-                        <app.rive.runtime.kotlin.RiveAnimationView
-                            android:id="@+id/rive_animation_avatar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:riveAutoPlay="true"
-                            app:riveResource="@raw/betoo" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:textColor="@color/blue_50"
-                            android:textSize="@dimen/_13ssp"
-                            android:fontFamily="@font/dm_sans_bold"
-                            android:layout_marginHorizontal="@dimen/_5sdp"
-                            android:text="David Prada Linarez"
-                            android:maxLines="1"
-                            android:ellipsize="marquee"
-                            android:id="@+id/name_person"
-                            android:layout_width="@dimen/_120sdp"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:textColor="@color/orange"
-                            android:textSize="@dimen/_9ssp"
-                            android:fontFamily="@font/geist_mono_regular"
-                            android:layout_marginHorizontal="@dimen/_5sdp"
-                            android:text="/davichois"
-                            android:id="@+id/nick_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.4"
-                    android:orientation="horizontal"
-                    android:id="@+id/ll_logo_ceis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:textColor="@color/blue_50"
-                        android:textSize="@dimen/_35ssp"
-                        android:fontFamily="@font/dm_sans_black"
-                        android:text="@string/ceis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView
-                        android:textColor="@color/blue_300"
-                        android:textSize="@dimen/_15ssp"
-                        android:fontFamily="@font/dm_sans_black"
-                        android:text="@string/conf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ll_logo_ceis"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:id="@+id/ll_content_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    app:layout_constraintVertical_bias="0.07"
+                    android:background="@drawable/cf_background_content_ticket_general"
+                    android:id="@+id/cl_content_ticket"
+                    android:layout_width="@dimen/_270sdp"
+                    android:layout_height="@dimen/_400sdp">
 
-                    <TextView
-                        android:textColor="@color/blue_300"
-                        android:textSize="@dimen/_10ssp"
-                        android:fontFamily="@font/geist_mono_black"
-                        android:layout_marginHorizontal="@dimen/_5sdp"
-                        android:text="NOVIEMBRE"
-                        android:id="@+id/info_ceis_conf_moth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/palmera01"
+                        android:scaleType="centerCrop"
+                        android:alpha="0.4"
+                        android:background="@drawable/cf_background_content_ticket_general"
+                        app:shapeAppearanceOverlay="@style/roundImageTicket" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_badges"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintVertical_bias="0.75"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_7ssp"
-                            android:fontFamily="@font/dm_sans_extra_bold"
-                            android:text="12"
+                            app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textAlignment="center"
+                            android:textColor="#A6EDF1FD"
+                            android:textSize="@dimen/_9ssp"
+                            android:fontFamily="@font/geist_mono_medium"
+                            android:text="hoste by: "
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
+
                         <TextView
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_7ssp"
-                            android:fontFamily="@font/dm_sans_extra_bold"
-                            android:text="13"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_7ssp"
-                            android:fontFamily="@font/dm_sans_extra_bold"
-                            android:text="14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:textColor="@color/blue_50"
-                            android:textSize="@dimen/_7ssp"
-                            android:fontFamily="@font/dm_sans_extra_bold"
-                            android:text="15"
+                            app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textAlignment="center"
+                            android:textColor="#CCEDF1FD"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/dm_sans_bold"
+                            android:text="@string/citse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <TextView
-                        android:textColor="@color/blue_50"
-                        android:textSize="@dimen/_12ssp"
-                        android:fontFamily="@font/geist_mono_semi_bold"
-                        android:text=",2024"
-                        android:layout_marginHorizontal="@dimen/_5sdp"
-                        android:id="@+id/info_ceis_conf_year"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        app:layout_constraintTop_toBottomOf="@id/ll_content_date"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/ll_badges"
+                        android:visibility="invisible"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content">
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <ImageView
+                            android:contentDescription="@string/share"
+                            android:src="@drawable/badges_adv"
+                            android:contextClickable="true"
+                            android:id="@+id/generate_ticket"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"/>
+
+                        <ImageView
+                            android:contentDescription="@string/share"
+                            android:src="@drawable/badges_coopac"
+                            android:contextClickable="true"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"/>
+
+                        <ImageView
+                            android:contentDescription="@string/share"
+                            android:src="@drawable/badges_fia"
+                            android:contextClickable="true"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"/>
+
+                        <ImageView
+                            android:contentDescription="@string/share"
+                            android:src="@drawable/badges_upeu"
+                            android:contextClickable="true"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/ll_logo_ceis"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.3"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            app:shapeAppearanceOverlay="@style/roundImageView"
+                            android:id="@+id/ivGetProfilePicture"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:scaleType="centerInside"
+                            android:backgroundTint="@color/blue_300"
+                            android:background="@drawable/cf_ripple_pulse">
+
+                            <ImageView
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:contentDescription="@string/share"
+                                android:src="@drawable/ic_account"
+                                android:contextClickable="true"
+                                android:layout_width="@dimen/_10sdp"
+                                android:layout_height="@dimen/_10sdp"/>
+
+                            <app.rive.runtime.kotlin.RiveAnimationView
+                                android:id="@+id/rive_animation_avatar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:riveAutoPlay="true"
+                                app:riveResource="@raw/betoo" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:textColor="@color/blue_50"
+                                android:textSize="@dimen/_13ssp"
+                                android:fontFamily="@font/dm_sans_bold"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:text="David Prada Linarez"
+                                android:maxLines="1"
+                                android:ellipsize="marquee"
+                                android:id="@+id/name_person"
+                                android:layout_width="@dimen/_120sdp"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:textColor="@color/orange"
+                                android:textSize="@dimen/_8ssp"
+                                android:fontFamily="@font/dm_sans_medium"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:text="/davichois"
+                                android:id="@+id/nick_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintVertical_bias="0.4"
+                        android:orientation="horizontal"
+                        android:id="@+id/ll_logo_ceis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/blue_50"
+                            android:textSize="@dimen/_35ssp"
+                            android:fontFamily="@font/dm_sans_black"
+                            android:text="@string/ceis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:textColor="@color/blue_300"
+                            android:textSize="@dimen/_15ssp"
+                            android:fontFamily="@font/geist_mono_black"
+                            android:text="@string/conf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_logo_ceis"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:id="@+id/ll_content_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/blue_300"
+                            android:textSize="@dimen/_10ssp"
+                            android:fontFamily="@font/geist_mono_black"
+                            android:layout_marginHorizontal="@dimen/_5sdp"
+                            android:text="NOVIEMBRE"
+                            android:id="@+id/info_ceis_conf_moth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_7ssp"
+                                android:fontFamily="@font/dm_sans_extra_bold"
+                                android:text="12"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_7ssp"
+                                android:fontFamily="@font/dm_sans_extra_bold"
+                                android:text="13"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_7ssp"
+                                android:fontFamily="@font/dm_sans_extra_bold"
+                                android:text="14"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textColor="@color/blue_50"
+                                android:textSize="@dimen/_7ssp"
+                                android:fontFamily="@font/dm_sans_extra_bold"
+                                android:text="15"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <TextView
+                            android:textColor="@color/blue_50"
+                            android:textSize="@dimen/_12ssp"
+                            android:fontFamily="@font/geist_mono_semi_bold"
+                            android:text=",2024"
+                            android:layout_marginHorizontal="@dimen/_5sdp"
+                            android:id="@+id/info_ceis_conf_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue_50"
+                    android:textSize="@dimen/_45ssp"
+                    android:fontFamily="@font/geist_mono_bold"
+                    android:text="#0001010"
+                    android:id="@+id/code_reserved"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:contentDescription="@string/backstage"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_brightness_point"
+                    android:contextClickable="true"
+                    android:padding="@dimen/_3sdp"
+                    android:id="@+id/back_stage"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textAlignment="center"
-                android:textColor="@color/blue_50"
-                android:textSize="@dimen/_45ssp"
-                android:fontFamily="@font/geist_mono_bold"
-                android:text="#0001010"
-                android:id="@+id/info_date"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintTop_toTopOf="@id/guidelineTop"
+                android:id="@+id/cl_header_home"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:contentDescription="@string/backstage"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_brightness_point"
-                android:contextClickable="true"
-                android:padding="@dimen/_3sdp"
-                android:id="@+id/back_stage"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-            app:layout_constraintTop_toTopOf="@id/guidelineTop"
-            android:id="@+id/cl_header_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:orientation="horizontal"
-                android:id="@+id/ll_header_home"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:textColor="@color/blue_600"
-                    android:textSize="@dimen/_19ssp"
-                    android:fontFamily="@font/dm_sans_black"
-                    android:text="@string/ceis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/share"
+                    android:src="@drawable/ic_arrow_back"
+                    android:contextClickable="true"
+                    android:background="@drawable/cf_ripple_pulse"
+                    android:padding="@dimen/_5sdp"
+                    android:id="@+id/back_view"
+                    android:layout_width="@dimen/_34sdp"
+                    android:layout_height="@dimen/_34sdp"/>
 
-                <TextView
-                    android:textColor="@color/blue_900"
-                    android:textSize="@dimen/_10ssp"
-                    android:fontFamily="@font/geist_mono_black"
-                    android:text="@string/conf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/share"
+                    android:src="@drawable/ic_share"
+                    android:contextClickable="true"
+                    android:background="@drawable/cf_ripple_pulse"
+                    android:padding="@dimen/_5sdp"
+                    android:id="@+id/share_ticket"
+                    android:layout_width="@dimen/_34sdp"
+                    android:layout_height="@dimen/_34sdp"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@string/share"
-                android:src="@drawable/ic_share"
-                android:contextClickable="true"
-                android:background="@drawable/cf_ripple_pulse"
-                android:padding="@dimen/_5sdp"
-                android:id="@+id/share_ticket"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"/>
+            <androidx.constraintlayout.widget.Guideline
+                app:layout_constraintGuide_percent="0.05"
+                android:orientation="vertical"
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                app:layout_constraintGuide_percent="0.95"
+                android:orientation="vertical"
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                app:layout_constraintGuide_percent="0.97"
+                android:orientation="horizontal"
+                android:id="@+id/guidelineBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                app:layout_constraintGuide_percent="0.03"
+                android:orientation="horizontal"
+                android:id="@+id/guidelineTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.Guideline
-            app:layout_constraintGuide_percent="0.05"
-            android:orientation="vertical"
-            android:id="@+id/guidelineStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/loadShimmerTEG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:shimmer_auto_start="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            app:layout_constraintGuide_percent="0.95"
-            android:orientation="vertical"
-            android:id="@+id/guidelineEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <include layout="@layout/view_ticket_event_general_load"/>
 
-        <androidx.constraintlayout.widget.Guideline
-            app:layout_constraintGuide_percent="0.97"
-            android:orientation="horizontal"
-            android:id="@+id/guidelineBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            app:layout_constraintGuide_percent="0.03"
-            android:orientation="horizontal"
-            android:id="@+id/guidelineTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

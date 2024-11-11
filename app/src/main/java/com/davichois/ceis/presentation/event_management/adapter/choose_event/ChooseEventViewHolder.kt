@@ -1,13 +1,13 @@
 package com.davichois.ceis.presentation.event_management.adapter.choose_event
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.davichois.ceis.data.remote.dto.EventDTO
 import com.davichois.ceis.databinding.ItemEventSelectedBinding
 import com.davichois.ceis.domain.model.EventModel
-import com.davichois.ceis.presentation.event_management.dto_pru.Evento
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -21,6 +21,15 @@ class ChooseEventViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val eventDateEnd = getHourFromDateTime(evento.endDate)
 
         val concatDate = "$eventDateStart - $eventDateEnd"
+
+        when(evento.typeEvent) {
+            "COLOQUIO" -> binding.typeEventPoint.setColorFilter(Color.parseColor("#EF5350"))
+            "SESIONES_PARARELAS" -> binding.typeEventPoint.setColorFilter(Color.parseColor("#29B6F6"))
+
+            else -> binding.typeEventPoint.setColorFilter(Color.parseColor("#EF5350"))
+        }
+
+
 
         binding.quotaEvent.text = evento.quota.toString()
         binding.eventTitle.text = evento.name

@@ -39,6 +39,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            app:layout_constraintTop_toTopOf="@id/guidelineTop"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            android:contentDescription="@string/share"
+            android:src="@drawable/ic_arrow_back"
+            android:contextClickable="true"
+            android:background="@drawable/cf_ripple_pulse"
+            android:padding="@dimen/_5sdp"
+            android:id="@+id/back_view"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="@dimen/_34sdp"/>
+
         <LinearLayout
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"

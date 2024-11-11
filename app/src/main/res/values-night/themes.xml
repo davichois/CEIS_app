@@ -3,6 +3,8 @@
     <style name="Base.Theme.CEIS" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/blue_50</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@color/blue_50</item>
     </style>
 
     <style name="roundImageView" parent="">
@@ -21,6 +23,12 @@
         <item name="cornerSizeBottomLeft">@dimen/_15sdp</item>
         <item name="cornerSizeBottomRight">@dimen/_15sdp</item>
         <item name="color">@color/blue_50</item>
+    </style>
+
+    <style name="roundImageTicket" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/_25sdp</item>
+        <item name="cornerSizeTopRight">@dimen/_25sdp</item>
     </style>
 
 </resources>

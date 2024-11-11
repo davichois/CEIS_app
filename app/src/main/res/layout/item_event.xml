@@ -74,7 +74,6 @@
             android:id="@+id/ivAvatarSpeaker"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:src="@drawable/speaker_jose_diaz"
             android:scaleType="centerInside"
             android:backgroundTint="#74343B56"
             android:background="@drawable/cf_background_speaker"

@@ -12,6 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/blue_50</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@color/blue_50</item>
     </style>
 
     <style name="roundImageView" parent="">
@@ -29,6 +32,12 @@
         <item name="cornerSizeBottomLeft">@dimen/_10sdp</item>
         <item name="cornerSizeBottomRight">@dimen/_10sdp</item>
         <item name="color">@color/blue_50</item>
+    </style>
+
+    <style name="roundImageTicket" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/_25sdp</item>
+        <item name="cornerSizeTopRight">@dimen/_25sdp</item>
     </style>
 
     <style name="Theme.CEIS" parent="Base.Theme.CEIS" />

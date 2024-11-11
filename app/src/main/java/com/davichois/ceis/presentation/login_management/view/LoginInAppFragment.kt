@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -50,13 +49,19 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
+        // TODO verified day current
+        val currentTime = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = dateFormat.format(currentTime.time)
+        val dayCurrent = formattedDate.split("/")[0].trim()
+
         binding?.tfDni?.onTextChange { s ->
             binding?.btnLogin?.isEnabled = s.length >= 8
         }
         binding?.btnLogin?.setOnClickListener {
             hideKeyboard()
             val dni = binding?.tfDni?.text.toString().trim()
-            loginManagementViewModel.authenticateUser(dni)
+            loginManagementViewModel.authenticateUser(dni, "13")
         }
 
         lifecycleScope.launch {
@@ -71,27 +76,11 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
                     is Resource.Success -> {
                         binding?.contentLIA?.visibility = View.VISIBLE
                         binding?.loadShimmerLIA?.visibility = View.GONE
-
-                        val currentTime = Calendar.getInstance()
-                        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        val formattedDate = dateFormat.format(currentTime.time)
-                        val dayCurrent = formattedDate.split("/")[0].trim()
-
-                        loginManagementViewModel.navigateForUse(day = dayCurrent)
-                        /*if (state.data.avatar.isNullOrEmpty()){
-                            loginManagementViewModel.navigateForUse(existsApplication = false, day = dayCurrent)
-                            // Toast.makeText(requireActivity(), "not exist", Toast.LENGTH_LONG).show()
-                            // Toast.makeText(requireActivity(), "${state.data.avatar} - $dayCurrent", Toast.LENGTH_LONG).show()
-                        } else {
-                            loginManagementViewModel.navigateForUse(existsApplication = true, day = dayCurrent)
-                            //Toast.makeText(requireActivity(), "exist", Toast.LENGTH_LONG).show()
-                            //Toast.makeText(requireActivity(), "${state.data.avatar} - $dayCurrent", Toast.LENGTH_LONG).show()
-                        }*/
                     }
                     is Resource.Error -> {
                         binding?.contentLIA?.visibility = View.VISIBLE
                         binding?.loadShimmerLIA?.visibility = View.GONE
-                        //Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
                     }
 
                     Resource.PreLoad -> Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_LONG).show()
@@ -114,10 +103,12 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
                             1 -> {
                                 val action = LoginInAppFragmentDirections.actionLoginInAppFragmentToHomeChooseEventFragment()
                                 findNavController().navigate(action)
+                                //Toast.makeText(requireActivity(), "1", Toast.LENGTH_LONG).show()
                             }
                             2 -> {
                                 val action = LoginInAppFragmentDirections.actionLoginInAppFragmentToHomeEventFragment()
                                 findNavController().navigate(action)
+                                //Toast.makeText(requireActivity(), "2", Toast.LENGTH_LONG).show()
                             }
                             else -> {
                                 Toast.makeText(requireActivity(), "CEIS ya termino", Toast.LENGTH_LONG).show()

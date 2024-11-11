@@ -7,8 +7,11 @@ import com.davichois.ceis.data.remote.dto.EventDTO
 import com.davichois.ceis.domain.model.EventModel
 import com.davichois.ceis.domain.use_case.event.GetEventForCodeUseCase
 import com.davichois.ceis.domain.use_case.event.GetEventForDayUseCase
+import com.davichois.ceis.domain.use_case.user.GetRecordersUserControlledUseCase
+import com.davichois.ceis.domain.use_case.user.GetRecordersUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EventManagementViewModel @Inject constructor(
     private val getEventForCodeUseCase: GetEventForCodeUseCase,
-    private val getEventForDayUseCase: GetEventForDayUseCase
+    private val getEventForDayUseCase: GetEventForDayUseCase,
+    private val getRecordersUserControlledUseCase: GetRecordersUserControlledUseCase
 ): ViewModel() {
 
     private val _uiStateEventForCode = MutableStateFlow<Resource<EventDTO>>(Resource.PreLoad)
@@ -26,6 +30,9 @@ class EventManagementViewModel @Inject constructor(
 
     private val _uiStateListEventChooseDay = MutableStateFlow<Resource<List<EventModel>>>(Resource.PreLoad)
     val uiStateListEventChooseDay: StateFlow<Resource<List<EventModel>>> = _uiStateListEventChooseDay
+
+    private val _uiStateListEventChooseAndGeneralDay = MutableStateFlow<Resource<List<EventModel>>>(Resource.PreLoad)
+    val uiStateListEventChooseAndGeneralDay: StateFlow<Resource<List<EventModel>>> = _uiStateListEventChooseAndGeneralDay
 
     fun getEventForCode(code: String) {
         viewModelScope.launch {
@@ -52,19 +59,21 @@ class EventManagementViewModel @Inject constructor(
     fun getEventForChooseForDay(day: String) {
         viewModelScope.launch {
             _uiStateListEventChooseDay.value = Resource.Loading
+            delay(2000)
 
             try {
                 val resultEventSPDeferred = async { getEventForDayUseCase(day = day, type = "SESIONES_PARALELAS") }
                 val resultEventColoquioDeferred = async { getEventForDayUseCase(day = day, type = "COLOQUIO") }
-                val resultEventTalleresDeferred = async { getEventForDayUseCase(day = day, type = "TALLERES") }
+                val resultEventBookingDeferred = async { getRecordersUserControlledUseCase(day = day) }
 
                 val resultEventSP = resultEventSPDeferred.await()
                 val resultEventColoquio = resultEventColoquioDeferred.await()
-                val resultEventTalleres = resultEventTalleresDeferred.await()
+                val resultEventBooking = resultEventBookingDeferred.await()
 
                 // Variables para combinar los resultados exitosos y capturar errores
-                val combinedData = mutableListOf<EventModel>()  // Reemplaza YourDataType con el tipo correcto
+                val combinedData = mutableListOf<EventModel>()
                 val errorMessages = mutableListOf<String>()
+                val dataBooking = mutableListOf<EventModel>()
 
                 // Procesa cada resultado
                 if (resultEventSP is Resource.Success) {
@@ -79,19 +88,29 @@ class EventManagementViewModel @Inject constructor(
                     errorMessages.add("Error en COLOQUIO: ${resultEventColoquio.message}")
                 }
 
-                if (resultEventTalleres is Resource.Success) {
-                    combinedData += resultEventTalleres.data
-                } else if (resultEventTalleres is Resource.Error) {
-                    errorMessages.add("Error en TALLERES: ${resultEventTalleres.message}")
+                if (resultEventBooking is Resource.Success) {
+                    dataBooking += resultEventBooking.data
+                } else if (resultEventBooking is Resource.Error) {
+                    errorMessages.add("Error en RECORDERS_USER_CONTROLLED: ${resultEventBooking.message}")
                 }
+
+                // Obtener IDs de los eventos duplicados en ambas listas
+                val duplicateIds = combinedData.map { it.id }.intersect(dataBooking.map { it.id })
+
+                // Filtrar para remover eventos que están en ambas listas
+                val combinedDataNotDuplicated = (combinedData + dataBooking).filterNot { it.id in duplicateIds }
+
 
                 // Decide el estado final en función de los resultados
                 _uiStateListEventChooseDay.value = when {
-                    errorMessages.isNotEmpty() && combinedData.isNotEmpty() -> {
-                        Resource.Success(combinedData)
-                    }
-                    combinedData.isNotEmpty() -> {
-                        Resource.Success(combinedData)
+                    combinedDataNotDuplicated.isNotEmpty() -> {
+                        if (errorMessages.isNotEmpty()) {
+                            Resource.Success(combinedDataNotDuplicated).apply {
+                                errorMessages.forEach { message -> println("Warning: $message") }
+                            }
+                        } else {
+                            Resource.Success(combinedDataNotDuplicated)
+                        }
                     }
                     else -> {
                         Resource.Error(errorMessages.joinToString("; "))
@@ -104,5 +123,74 @@ class EventManagementViewModel @Inject constructor(
         }
     }
 
+
+    fun getEventForChooseAndGeneralDay(day: String) {
+        viewModelScope.launch {
+            _uiStateListEventChooseAndGeneralDay.value = Resource.Loading
+            delay(2000)
+
+            try {
+                val resultEventCMDeferred = async { getEventForDayUseCase(day = day, type = "CHARLA_MAGISTRAL") }
+                val resultEventGeneralDeferred = async { getEventForDayUseCase(day = day, type = "GENERAL") }
+                val resultEventOtherDeferred = async { getEventForDayUseCase(day = day, type = "OTROS") }
+                val resultEventBookingDeferred = async { getRecordersUserControlledUseCase(day = day) }
+
+                val resultEventCM = resultEventCMDeferred.await()
+                val resultEventGeneral = resultEventGeneralDeferred.await()
+                val resultEventOther = resultEventOtherDeferred.await()
+                val resultEventBooking = resultEventBookingDeferred.await()
+
+                val combinedData = mutableListOf<EventModel>()
+                val errorMessages = mutableListOf<String>()
+
+                // Procesa cada resultado
+                if (resultEventCM is Resource.Success) {
+                    combinedData += resultEventCM.data
+                } else if (resultEventCM is Resource.Error) {
+                    errorMessages.add("Error en SESIONES_PARALELAS: ${resultEventCM.message}")
+                }
+
+                if (resultEventGeneral is Resource.Success) {
+                    combinedData += resultEventGeneral.data
+                } else if (resultEventGeneral is Resource.Error) {
+                    errorMessages.add("Error en COLOQUIO: ${resultEventGeneral.message}")
+                }
+
+                if (resultEventOther is Resource.Success) {
+                    combinedData += resultEventOther.data
+                } else if (resultEventOther is Resource.Error) {
+                    errorMessages.add("Error en COLOQUIO: ${resultEventOther.message}")
+                }
+
+                if (resultEventOther is Resource.Success) {
+                    combinedData += resultEventOther.data
+                } else if (resultEventOther is Resource.Error) {
+                    errorMessages.add("Error en COLOQUIO: ${resultEventOther.message}")
+                }
+
+                if (resultEventBooking is Resource.Success) {
+                    combinedData += resultEventBooking.data
+                } else if (resultEventBooking is Resource.Error) {
+                    errorMessages.add("Error en COLOQUIO: ${resultEventBooking.message}")
+                }
+
+                // Decide el estado final en función de los resultados
+                _uiStateListEventChooseAndGeneralDay.value = when {
+                    errorMessages.isNotEmpty() && combinedData.isNotEmpty() -> {
+                        Resource.Success(combinedData)
+                    }
+                    combinedData.isNotEmpty() -> {
+                        Resource.Success(combinedData)
+                    }
+                    else -> {
+                        Resource.Error(errorMessages.joinToString("; "))
+                    }
+                }
+
+            } catch (e: IOException) {
+                _uiStateListEventChooseAndGeneralDay.value = Resource.Error("Error de red: ${e.localizedMessage}")
+            }
+        }
+    }
 
 }

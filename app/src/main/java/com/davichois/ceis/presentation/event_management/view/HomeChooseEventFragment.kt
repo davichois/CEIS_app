@@ -9,14 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.davichois.ceis.R
 import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.databinding.FragmentHomeChooseEventBinding
 import com.davichois.ceis.domain.model.EventModel
 import com.davichois.ceis.presentation.event_management.adapter.choose_event.ChooseEventAdapter
-import com.davichois.ceis.presentation.event_management.dto_pru.Evento
 import com.davichois.ceis.presentation.event_management.view_model.EventManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -52,21 +51,35 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
 
         eventManagementViewModel.getEventForChooseForDay("13")
 
+        binding?.btnBooking?.setOnClickListener {
+            val action = HomeChooseEventFragmentDirections.actionHomeChooseEventFragmentToHomeEventFragment()
+            findNavController().navigate(action)
+        }
+
         lifecycleScope.launch {
             eventManagementViewModel.uiStateListEventChooseDay.collect { state ->
                 when (state) {
                     is Resource.Loading -> {
-                        Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_SHORT).show()
+                        binding?.contentHCE?.visibility = View.GONE
+                        binding?.loadShimmerHCE?.visibility = View.VISIBLE
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Success -> {
-                        Toast.makeText(requireActivity(), "correct ${state.data.size}", Toast.LENGTH_SHORT).show()
+                        binding?.contentHCE?.visibility = View.VISIBLE
+                        binding?.loadShimmerHCE?.visibility = View.GONE
+                        // Toast.makeText(requireActivity(), "correct ${state.data.size}", Toast.LENGTH_SHORT).show()
                         initRecyclerView(eventList = state.data)
                     }
                     is Resource.Error -> {
-                        Toast.makeText(requireActivity(), state.message, Toast.LENGTH_SHORT).show()
+                        binding?.contentHCE?.visibility = View.VISIBLE
+                        binding?.loadShimmerHCE?.visibility = View.GONE
+                        // Toast.makeText(requireActivity(), state.message, Toast.LENGTH_SHORT).show()
                     }
 
-                    Resource.PreLoad -> Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_SHORT).show()
+                    Resource.PreLoad -> {
+                        println("start in app")
+                        // Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

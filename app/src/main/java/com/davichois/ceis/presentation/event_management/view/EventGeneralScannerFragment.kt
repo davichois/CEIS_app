@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.davichois.ceis.R
@@ -41,6 +42,10 @@ class EventGeneralScannerFragment : Fragment(R.layout.fragment_event_general_sca
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
+        binding?.backView?.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         if (ContextCompat.checkSelfPermission(
                 requireActivity(),
                 android.Manifest.permission.CAMERA
@@ -64,8 +69,9 @@ class EventGeneralScannerFragment : Fragment(R.layout.fragment_event_general_sca
         codeScanner = scannerView?.let { CodeScanner(activity, it) }!!
         codeScanner.decodeCallback = DecodeCallback {
             activity.runOnUiThread {
-                if (it.text.startsWith("KSG")) {
-                    Toast.makeText(activity, "HOLI", Toast.LENGTH_SHORT).show()
+                if (it.text.startsWith("C3I5")) {
+                    val action = EventGeneralScannerFragmentDirections.actionEventGeneralScannerFragmentToEventAttendanceStampFragment(eventCode = it.text)
+                    findNavController().navigate(action)
                 } else {
                     activity.runOnUiThread {
                         Toast.makeText(activity, "Intenta de nuevo", Toast.LENGTH_SHORT).show()

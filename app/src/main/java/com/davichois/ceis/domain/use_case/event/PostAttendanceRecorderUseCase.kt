@@ -11,9 +11,9 @@ class PostAttendanceRecorderUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) {
 
-    suspend operator fun invoke(code: String): Resource<AttendanceRegisterDTO> {
-        val dni = preferencesRepository.getUserPreferences().dni
-        return repository.postAttendanceRecorder(token = "eyJ0b2tlbiI6ImJyaXRlQXBwIn0", dni = dni, code = code)
+    suspend operator fun invoke(code: String, dni: String = ""): Resource<AttendanceRegisterDTO> {
+        val dniOperator = preferencesRepository.getUserPreferences().dni
+        return repository.postAttendanceRecorder(token = "eyJ0b2tlbiI6ImJyaXRlQXBwIn0", dni = dni.ifBlank { dniOperator }, code = code)
     }
 
 }

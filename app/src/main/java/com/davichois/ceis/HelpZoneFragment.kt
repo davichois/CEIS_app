@@ -2,13 +2,22 @@ package com.davichois.ceis
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.databinding.FragmentHelpZoneBinding
+import com.davichois.ceis.presentation.login_management.view.LoginInAppFragmentDirections
+import com.davichois.ceis.presentation.login_management.view_model.LoginManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -18,6 +27,9 @@ class HelpZoneFragment : Fragment(R.layout.fragment_help_zone) {
 
     private var _binding: FragmentHelpZoneBinding? = null
     private val binding get() = _binding
+
+    // Injection view model
+    private val loginManagementViewModel: LoginManagementViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,22 +48,71 @@ class HelpZoneFragment : Fragment(R.layout.fragment_help_zone) {
         // Obtencion de fecha de evento y guardado
         // Array con fechas específicas (año, mes, día) CEIS
         val datesArray = arrayOf(
-            Calendar.getInstance().apply { set(2024, 10, 4) },
             Calendar.getInstance().apply { set(2024, 10, 13) },
-            Calendar.getInstance().apply { set(2024, 10, 15) },
-            Calendar.getInstance().apply { set(2024, 10, 16) }
+            Calendar.getInstance().apply { set(2024, 10, 14) },
+            Calendar.getInstance().apply { set(2024, 10, 15) }
         )
+        val startDate = Calendar.getInstance().apply { set(2024, 10, 13) }
+        val endDate = Calendar.getInstance().apply { set(2024, 10, 15) }
+
         val currentTime = Calendar.getInstance()
-        // Formateador de tiempo
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        for (date in datesArray) {
-            if (currentTime.get(Calendar.YEAR) == date.get(Calendar.YEAR) &&
-                currentTime.get(Calendar.MONTH) == date.get(Calendar.MONTH) &&
-                currentTime.get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH)
-            ) {
-                val formattedDate = dateFormat.format(date.time)
-                Toast.makeText(requireActivity(), "Bienvenido ${formattedDate.split("/")[0]}!", Toast.LENGTH_LONG).show()
+
+        when {
+            currentTime in datesArray -> {
+                val formattedDate = dateFormat.format(currentTime.time)
+                Toast.makeText(requireActivity(), "Bienvenido $formattedDate!", Toast.LENGTH_LONG).show()
             }
+            currentTime.after(endDate) -> {
+                Toast.makeText(requireActivity(), "Día no hábil", Toast.LENGTH_LONG).show()
+            }
+            currentTime.before(startDate) -> {
+                Toast.makeText(requireActivity(), "Aún no se ha aperturado", Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+        loginManagementViewModel.getVerifiedAccountInAppInitialized("13")
+
+        lifecycleScope.launch {
+            delay(2000)
+            loginManagementViewModel.uiStateNavigateSplash.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
+                    }
+                    is Resource.Success -> {
+                        when(state.data) {
+                            1 ->{
+                                val action = HelpZoneFragmentDirections.actionHelpZoneFragmentToHomeChooseEventFragment()
+                                findNavController().navigate(action)
+                            }
+                            2 ->{
+                                val action = HelpZoneFragmentDirections.actionHelpZoneFragmentToLoginInAppFragment()
+                                findNavController().navigate(action)
+                            }
+                            3 ->{
+                                val action = HelpZoneFragmentDirections.actionHelpZoneFragmentToHomeEventFragment()
+                                findNavController().navigate(action)
+                            }
+                        }
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireActivity(), state.message, Toast.LENGTH_LONG).show()
+
+                    }
+
+                    Resource.PreLoad -> {
+                        println("Precargando elecciones",)
+                        /*Toast.makeText(
+                            requireActivity(),
+                            "Precargando elecciones",
+                            Toast.LENGTH_LONG
+                        ).show()*/
+                    }
+                }
+            }
+
         }
 
     }

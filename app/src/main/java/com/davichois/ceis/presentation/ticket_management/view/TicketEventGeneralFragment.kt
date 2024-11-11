@@ -13,12 +13,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.davichois.ceis.R
+import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.databinding.FragmentTicketEventGeneralBinding
+import com.davichois.ceis.presentation.ticket_management.view_model.TicketManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -30,6 +37,10 @@ class TicketEventGeneralFragment : Fragment(R.layout.fragment_ticket_event_gener
     private val binding get() = _binding
 
     private lateinit var ticketLayout: ConstraintLayout
+
+    // Injection view model
+    private val ticketManagementViewModel: TicketManagementViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +60,49 @@ class TicketEventGeneralFragment : Fragment(R.layout.fragment_ticket_event_gener
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
-        ticketLayout = binding?.clBadgeTicket!!
+        ticketManagementViewModel.getUserForDNI()
+        lifecycleScope.launch {
+            ticketManagementViewModel.uiStateUser.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        binding?.contentTEG?.visibility = View.GONE
+                        binding?.loadShimmerTEG?.visibility = View.VISIBLE
+                        //Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
+
+                    }
+                    is Resource.Success -> {
+                        binding?.contentTEG?.visibility = View.VISIBLE
+                        binding?.loadShimmerTEG?.visibility = View.GONE
+                        binding?.namePerson?.text = state.data.name
+                        binding?.nickName?.text = state.data.nickname
+                        "#${state.data.code}".also { binding?.codeReserved?.text = it }
+
+                        val avatar = when (state.data.gender) {
+                            "M" -> "betoo"
+                            "F" -> "andrea"
+                            else -> "andrea"
+                        }
+                        requireContext().resources?.let {
+                            binding?.riveAnimationAvatar?.setRiveResource(
+                                it.getIdentifier(avatar, "raw", requireContext().packageName)
+                            )
+                        }
+
+                        ticketLayout = binding?.clBadgeTicket!!
+                    }
+                    is Resource.Error -> {
+                        binding?.contentTEG?.visibility = View.VISIBLE
+                        binding?.loadShimmerTEG?.visibility = View.GONE
+                        // Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
+                    }
+
+                    Resource.PreLoad -> {
+                        println("error ticket")
+                        // Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
 
         binding?.shareTicket?.setOnClickListener {
             val bitmap = createBitmapFromView(ticketLayout)
@@ -58,6 +111,10 @@ class TicketEventGeneralFragment : Fragment(R.layout.fragment_ticket_event_gener
                 shareImage(requireActivity(), imageUri)
             }
         }
+        binding?.backView?.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
 
     }
 

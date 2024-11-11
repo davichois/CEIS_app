@@ -153,6 +153,43 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/alert_problem_login"
+                app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+                app:layout_constraintVertical_bias="0.85"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="#8A000000"
+                    android:textSize="@dimen/_9ssp"
+                    android:fontFamily="@font/geist_mono_medium"
+                    android:text="hoste by: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/cl_content_ticket"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue_300"
+                    android:textSize="@dimen/_12ssp"
+                    android:fontFamily="@font/dm_sans_extra_bold"
+                    android:text="@string/citse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
             <androidx.constraintlayout.widget.Guideline
                 app:layout_constraintGuide_percent="0.05"
                 android:orientation="vertical"

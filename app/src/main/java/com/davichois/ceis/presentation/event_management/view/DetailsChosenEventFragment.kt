@@ -13,6 +13,8 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.davichois.ceis.R
 import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.core.util.hideKeyboard
@@ -35,6 +37,9 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
     private val eventManagementViewModel: EventManagementViewModel by viewModels()
     private val assistanceEventViewModel: AssistanceEventViewModel by viewModels()
 
+    // args - view
+    private val args: DetailsChosenEventFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,11 +58,24 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
+        eventManagementViewModel.getEventForCode(args.eventCode)
+
+        // Not Master
+        binding?.clQrScan?.setOnClickListener {
+            val action = DetailsChosenEventFragmentDirections.actionDetailsChosenEventFragmentToEventGeneralScannerFragment()
+            findNavController().navigate(action)
+        }
+        binding?.clCodeAlpha?.setOnClickListener {
+            val action = DetailsChosenEventFragmentDirections.actionDetailsChosenEventFragmentToEventAlphanumericCodeFragment()
+            findNavController().navigate(action)
+        }
+
+        // Master
         binding?.ivCodeComputerMaster?.setOnClickListener {
-            showViewGenerateCode("C3I5ZmH")
+            showViewGenerateCode(args.eventCode)
         }
         binding?.ivQrGenerateMaster?.setOnClickListener {
-            generateQrForAttendance("C3I5ZmH")
+            generateQrForAttendance(args.eventCode)
         }
         binding?.ivCodeAlphaMaster?.setOnClickListener {
             countDownCodePreview()
@@ -67,15 +85,34 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
             eventManagementViewModel.uiStateEventForCode.collect { state ->
                 when (state) {
                     is Resource.Loading -> {
-                        Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
+                        binding?.contentDCE?.visibility = View.GONE
+                        binding?.loadShimmerDCE?.visibility = View.VISIBLE
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_LONG).show()
 
                     }
                     is Resource.Success -> {
-                        Toast.makeText(requireActivity(), "correcto", Toast.LENGTH_LONG).show()
+                        binding?.contentDCE?.visibility = View.VISIBLE
+                        binding?.loadShimmerDCE?.visibility = View.GONE
+                        // Toast.makeText(requireActivity(), "correcto", Toast.LENGTH_LONG).show()
+
+                        // Paint information on labels
+                        val data = state.data
+                        val speakerPrincipal = state.data.speakers[0]
+
+                        binding?.backStage?.setOnClickListener {
+                            findNavController().popBackStack()
+                        }
+                        binding?.eventTitle?.text = data.name
+                        binding?.nameSpeaker?.text = speakerPrincipal.name
+                        "${speakerPrincipal.degree}, ${speakerPrincipal.function}".also { binding?.vocationPerson?.text = it }
+                        binding?.placeEvent?.text = data.place
 
                     }
                     is Resource.Error -> {
-                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
+                        binding?.contentDCE?.visibility = View.VISIBLE
+                        binding?.loadShimmerDCE?.visibility = View.GONE
+                        println("error: ${state.message}")
+                        // Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
                     }
 
                     Resource.PreLoad -> {
@@ -132,6 +169,7 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
                     }
                     is Resource.Error -> {
                         Toast.makeText(requireActivity(), "Paso un error inesperado", Toast.LENGTH_LONG).show()
+                        println("error: ${state.message}")
                     }
 
                     Resource.PreLoad -> {
@@ -177,12 +215,21 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
                 val elapsedSeconds = diff / secondsInMilli
 
                 binding?.codeEvent?.visibility = View.VISIBLE
-                binding?.codeEvent?.text = "C3I5G04"
+                binding?.codeEvent?.text = args.eventCode
+
+                binding?.minCodeEvent?.visibility = View.VISIBLE
+                binding?.minCodeEvent?.text = elapsedMinutes.toString()
+                binding?.segCodeEvent?.visibility = View.VISIBLE
+                binding?.segCodeEvent?.text = elapsedSeconds.toString()
+                binding?.pointCodeEvent?.visibility = View.VISIBLE
 
             }
 
             override fun onFinish() {
                 binding?.codeEvent?.visibility = View.INVISIBLE
+                binding?.minCodeEvent?.visibility = View.INVISIBLE
+                binding?.segCodeEvent?.visibility = View.INVISIBLE
+                binding?.pointCodeEvent?.visibility = View.INVISIBLE
             }
         }
 

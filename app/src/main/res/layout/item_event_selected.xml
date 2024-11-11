@@ -18,7 +18,6 @@
 
     <TextView
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintTop_toBottomOf="@id/iv_dash"
         android:layout_marginTop="@dimen/_12sdp"
         android:textColor="@color/orange"
@@ -29,13 +28,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 
+    <ImageView
+        android:contentDescription="@string/backstage"
+        app:layout_constraintStart_toEndOf="@id/event_date_time"
+        app:layout_constraintTop_toTopOf="@id/event_date_time"
+        app:layout_constraintBottom_toBottomOf="@id/event_date_time"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:src="@drawable/ic_brightness_point"
+        android:contextClickable="true"
+        android:id="@+id/type_event_point"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"/>
+
     <TextView
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintEnd_toEndOf="@id/guidelineEndSeparator"
         app:layout_constraintTop_toBottomOf="@id/event_date_time"
         android:layout_marginTop="@dimen/_6sdp"
         android:textColor="@color/blue_900"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_12ssp"
         android:fontFamily="@font/dm_sans_regular"
         android:text="Prose and cons: Migrating The New York Public Library’s digital collections to Next.js"
         android:id="@+id/event_title"
@@ -62,7 +73,7 @@
         <TextView
             android:layout_marginTop="@dimen/_6sdp"
             android:textColor="@color/blue_900"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="@dimen/_10ssp"
             android:fontFamily="@font/geist_mono_semi_bold"
             android:text="D304"
             android:id="@+id/place_event"
@@ -85,7 +96,7 @@
         <TextView
             android:layout_marginTop="@dimen/_6sdp"
             android:textColor="@color/blue_900"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="@dimen/_10ssp"
             android:fontFamily="@font/geist_mono_semi_bold"
             android:text="28"
             android:id="@+id/quota_event"

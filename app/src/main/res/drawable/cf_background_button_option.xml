@@ -4,13 +4,17 @@ android:color="#C1D0FF">
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-            <stroke android:color="@color/blue_600" android:width="1dp"/>
+            <stroke android:color="@color/blue_900" android:width="1dp"/>
 
-            <solid android:color="#090909"/>
+            <solid android:color="@color/white"/>
 
             <corners
-                android:topLeftRadius="@dimen/_30sdp"
-                android:topRightRadius="@dimen/_30sdp"/>
+                android:radius="@dimen/_20sdp"/>
+
+            <padding
+                android:bottom="2dp"
+                android:top="2dp"/>
+
         </shape>
     </item>
 </ripple>
