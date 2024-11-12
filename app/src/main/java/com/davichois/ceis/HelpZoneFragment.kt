@@ -48,31 +48,33 @@ class HelpZoneFragment : Fragment(R.layout.fragment_help_zone) {
         // Obtencion de fecha de evento y guardado
         // Array con fechas específicas (año, mes, día) CEIS
         val datesArray = arrayOf(
+            Calendar.getInstance().apply { set(2024, 10, 12)},
             Calendar.getInstance().apply { set(2024, 10, 13) },
             Calendar.getInstance().apply { set(2024, 10, 14) },
             Calendar.getInstance().apply { set(2024, 10, 15) }
         )
-        val startDate = Calendar.getInstance().apply { set(2024, 10, 13) }
+        val startDate = Calendar.getInstance().apply { set(2024, 10, 12) }
         val endDate = Calendar.getInstance().apply { set(2024, 10, 15) }
 
         val currentTime = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = dateFormat.format(currentTime.time)
+        val dayCurrent = formattedDate.split("/")[0].trim()
 
         when {
             currentTime in datesArray -> {
-                val formattedDate = dateFormat.format(currentTime.time)
-                Toast.makeText(requireActivity(), "Bienvenido $formattedDate!", Toast.LENGTH_LONG).show()
+                // Toast.makeText(requireActivity(), "Bienvenido! $dayCurrent", Toast.LENGTH_LONG).show()
             }
             currentTime.after(endDate) -> {
-                Toast.makeText(requireActivity(), "Día no hábil", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireActivity(), "Día no hábil", Toast.LENGTH_LONG).show()
             }
             currentTime.before(startDate) -> {
-                Toast.makeText(requireActivity(), "Aún no se ha aperturado", Toast.LENGTH_LONG).show()
+                //Toast.makeText(requireActivity(), "Aún no se ha aperturado", Toast.LENGTH_LONG).show()
             }
         }
 
-
-        loginManagementViewModel.getVerifiedAccountInAppInitialized("13")
+        // TODO: days change
+        loginManagementViewModel.getVerifiedAccountInAppInitialized(dayCurrent)
 
         lifecycleScope.launch {
             delay(2000)

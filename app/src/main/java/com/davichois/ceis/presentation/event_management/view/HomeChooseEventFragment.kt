@@ -19,6 +19,9 @@ import com.davichois.ceis.presentation.event_management.adapter.choose_event.Cho
 import com.davichois.ceis.presentation.event_management.view_model.EventManagementViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
@@ -49,11 +52,74 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
-        eventManagementViewModel.getEventForChooseForDay("13")
+        val currentTime = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = dateFormat.format(currentTime.time)
+        val dayCurrent = formattedDate.split("/")[0].trim()
+
+        // TODO: days change
+        eventManagementViewModel.getEventForChooseForDay(dayCurrent)
+
+        when(dayCurrent){
+            "12" -> {
+                binding?.infoDate?.text = "DIA <01/>"
+            }
+            "13" -> {
+                binding?.infoDate?.text = "DIA <02/>"
+            }
+            "14" -> {
+                binding?.infoDate?.text = "DIA <03/>"
+            }
+            "15" -> {
+                binding?.infoDate?.text = "DIA <04/>"
+            }
+            else -> binding?.infoDate?.text = "NOT DAY"
+        }
 
         binding?.btnBooking?.setOnClickListener {
-            val action = HomeChooseEventFragmentDirections.actionHomeChooseEventFragmentToHomeEventFragment()
-            findNavController().navigate(action)
+            eventManagementViewModel.postAllBookings(events = eventsChose)
+            /*
+            if (eventsChose.isNotEmpty()) {
+                eventManagementViewModel.postAllBookings(
+                    codes = eventsChose.map { it.code },
+                    onComplete = {
+                        findNavController().navigate(
+                            HomeChooseEventFragmentDirections.actionHomeChooseEventFragmentToHomeEventFragment()
+                        )
+                    }
+                )
+            } else {
+                Toast.makeText(context, "Por favor, selecciona al menos un evento.", Toast.LENGTH_SHORT).show()
+            }
+             */
+        }
+
+        lifecycleScope.launch {
+            eventManagementViewModel.uiStateEventListReturn.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        binding?.contentHCE?.visibility = View.GONE
+                        binding?.loadShimmerHCE?.visibility = View.VISIBLE
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        findNavController().navigate(
+                            HomeChooseEventFragmentDirections.actionHomeChooseEventFragmentToHomeEventFragment()
+                        )
+                    }
+                    is Resource.Error -> {
+                        binding?.contentHCE?.visibility = View.VISIBLE
+                        binding?.loadShimmerHCE?.visibility = View.GONE
+                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
+                        println(state.message)
+                    }
+
+                    Resource.PreLoad -> {
+                        println("start in app")
+                        // Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
 
         lifecycleScope.launch {
@@ -68,7 +134,9 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
                         binding?.contentHCE?.visibility = View.VISIBLE
                         binding?.loadShimmerHCE?.visibility = View.GONE
                         // Toast.makeText(requireActivity(), "correct ${state.data.size}", Toast.LENGTH_SHORT).show()
-                        initRecyclerView(eventList = state.data)
+
+                        val filteredEventList = state.data.filter { it.quota > 0 }
+                        initRecyclerView(eventList = filteredEventList)
                     }
                     is Resource.Error -> {
                         binding?.contentHCE?.visibility = View.VISIBLE
@@ -102,11 +170,11 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
             eventsChose.remove(evento)
             evento.isSelected = false
         }
-        //viewEventsSelected()
+        viewEventsSelected()
     }
 
-    /*private fun viewEventsSelected() {
+    private fun viewEventsSelected() {
         Toast.makeText(requireActivity(), "Eventos seleccionados: ${eventsChose.size}", Toast.LENGTH_LONG).show()
-    }*/
+    }
 
 }

@@ -23,6 +23,9 @@ import com.davichois.ceis.presentation.event_management.view_model.EventManageme
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class HomeEventFragment : Fragment(R.layout.fragment_home_event) {
@@ -59,7 +62,12 @@ class HomeEventFragment : Fragment(R.layout.fragment_home_event) {
             showDialogOptionApp()
         }
 
-        eventManagementViewModel.getEventForChooseAndGeneralDay("13")
+        val currentTime = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = dateFormat.format(currentTime.time)
+        val dayCurrent = formattedDate.split("/")[0].trim()
+        // TODO: days change
+        eventManagementViewModel.getEventForChooseAndGeneralDay(dayCurrent)
 
         lifecycleScope.launch {
             eventManagementViewModel.uiStateListEventChooseAndGeneralDay.collect { state ->
@@ -100,7 +108,7 @@ class HomeEventFragment : Fragment(R.layout.fragment_home_event) {
     private fun onSelectedEvent(eventId: String){
         val action = HomeEventFragmentDirections.actionHomeEventFragmentToDetailsChosenEventFragment(eventCode = eventId)
         findNavController().navigate(action)
-        Toast.makeText(requireActivity(), eventId, Toast.LENGTH_SHORT).show()
+        // Toast.makeText(requireActivity(), eventId, Toast.LENGTH_SHORT).show()
     }
 
     private fun showDialogOptionApp() {
@@ -110,6 +118,9 @@ class HomeEventFragment : Fragment(R.layout.fragment_home_event) {
         val bindingDialog = ViewBottomOptionAppBinding.bind(view)
 
         bindingDialog.btnCloseSession.setOnClickListener {
+            eventManagementViewModel.logOutUserApp()
+            val action = HomeEventFragmentDirections.actionHomeEventFragmentToLoginInAppFragment()
+            findNavController().navigate(action)
             optionBottomDialog.dismiss()
         }
 

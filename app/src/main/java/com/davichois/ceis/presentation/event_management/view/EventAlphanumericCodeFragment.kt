@@ -6,14 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.davichois.ceis.R
+import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.core.util.hideKeyboard
 import com.davichois.ceis.core.util.onTextChange
 import com.davichois.ceis.databinding.FragmentEventAlphanumericCodeBinding
 import com.davichois.ceis.presentation.event_management.view_model.AssistanceEventViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EventAlphanumericCodeFragment : Fragment(R.layout.fragment_event_alphanumeric_code) {
@@ -53,6 +57,34 @@ class EventAlphanumericCodeFragment : Fragment(R.layout.fragment_event_alphanume
             hideKeyboard()
             val codeEvent = binding?.tfAlfanumerico?.text.toString().trim()
             assistanceEventViewModel.postAttendanceRecorder(codeEvent)
+        }
+
+        lifecycleScope.launch {
+            assistanceEventViewModel.uiStateAttendanceRecorder.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        binding?.contentLIA?.visibility = View.GONE
+                        binding?.loadShimmerLIA?.visibility = View.VISIBLE
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        findNavController().navigate(
+                            EventAlphanumericCodeFragmentDirections.actionEventAlphanumericCodeFragmentToHomeEventFragment()
+                        )
+                    }
+                    is Resource.Error -> {
+                        binding?.contentLIA?.visibility = View.VISIBLE
+                        binding?.loadShimmerLIA?.visibility = View.GONE
+                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
+                        println(state.message)
+                    }
+
+                    Resource.PreLoad -> {
+                        println("start in app")
+                        // Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 

@@ -149,29 +149,26 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             app:shapeAppearanceOverlay="@style/roundImageView"
                             android:id="@+id/ivGetProfilePicture"
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerInside"
                             android:backgroundTint="@color/blue_300"
                             android:background="@drawable/cf_ripple_pulse">
 
-                            <ImageView
+                            <com.google.android.material.imageview.ShapeableImageView
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 android:contentDescription="@string/share"
-                                android:src="@drawable/ic_account"
-                                android:contextClickable="true"
-                                android:layout_width="@dimen/_10sdp"
-                                android:layout_height="@dimen/_10sdp"/>
-
-                            <app.rive.runtime.kotlin.RiveAnimationView
-                                android:id="@+id/rive_animation_avatar"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:riveAutoPlay="true"
-                                app:riveResource="@raw/betoo" />
+                                android:id="@+id/image_user_card"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/upeu"
+                                android:scaleType="centerInside"
+                                android:backgroundTint="#74343B56"
+                                android:background="@drawable/cf_background_speaker"
+                                app:shapeAppearanceOverlay="@style/roundImageSpeakersCards" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 

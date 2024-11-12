@@ -24,7 +24,7 @@ class ChooseEventViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         when(evento.typeEvent) {
             "COLOQUIO" -> binding.typeEventPoint.setColorFilter(Color.parseColor("#EF5350"))
-            "SESIONES_PARARELAS" -> binding.typeEventPoint.setColorFilter(Color.parseColor("#29B6F6"))
+            "SESIONES_PARALELAS" -> binding.typeEventPoint.setColorFilter(Color.parseColor("#29B6F6"))
 
             else -> binding.typeEventPoint.setColorFilter(Color.parseColor("#EF5350"))
         }

@@ -17,6 +17,7 @@ import com.davichois.ceis.databinding.FragmentEventAttendanceStampBinding
 import com.davichois.ceis.presentation.event_management.view_model.AssistanceEventViewModel
 import com.davichois.ceis.presentation.event_management.view_model.EventManagementViewModel
 import com.davichois.ceis.presentation.login_management.view.LoginInAppFragmentDirections
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -72,9 +73,15 @@ class EventAttendanceStampFragment : Fragment(R.layout.fragment_event_attendance
                         binding?.backStage?.setOnClickListener {
                             findNavController().popBackStack()
                         }
+                        if (speakerPrincipal.image.isNullOrBlank()){
+                            binding?.ivAvatarSpeaker?.setImageResource(R.drawable.not_user)
+                        } else {
+                            Picasso.get().load(speakerPrincipal.image).into(binding?.ivAvatarSpeaker)
+                        }
                         binding?.eventTitle?.text = data.name
                         binding?.nameSpeaker?.text = speakerPrincipal.name
-                        "${speakerPrincipal.degree}, ${speakerPrincipal.function}".also { binding?.vocationPerson?.text = it }
+                        "${speakerPrincipal.degree} ${speakerPrincipal.name}".also { binding?.nameSpeaker?.text = it }
+                        "${speakerPrincipal.function}".also { binding?.vocationPerson?.text = it }
                     }
                     is Resource.Error -> {
                         Toast.makeText(requireActivity(), state.message, Toast.LENGTH_LONG).show()
@@ -86,6 +93,35 @@ class EventAttendanceStampFragment : Fragment(R.layout.fragment_event_attendance
             }
 
         }
+
+        lifecycleScope.launch {
+            assistanceEventViewModel.uiStateAttendanceRecorder.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        binding?.contentEAS?.visibility = View.GONE
+                        binding?.loadShimmerEAS?.visibility = View.VISIBLE
+                        // Toast.makeText(requireActivity(), "cargando", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        findNavController().navigate(
+                            EventAttendanceStampFragmentDirections.actionEventAttendanceStampFragmentToHomeEventFragment()
+                        )
+                    }
+                    is Resource.Error -> {
+                        binding?.contentEAS?.visibility = View.VISIBLE
+                        binding?.loadShimmerEAS?.visibility = View.GONE
+                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
+                        println(state.message)
+                    }
+
+                    Resource.PreLoad -> {
+                        println("start in app")
+                        // Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
     }
 
 }

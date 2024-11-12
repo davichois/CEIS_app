@@ -49,7 +49,6 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
-        // TODO verified day current
         val currentTime = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val formattedDate = dateFormat.format(currentTime.time)
@@ -61,7 +60,8 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
         binding?.btnLogin?.setOnClickListener {
             hideKeyboard()
             val dni = binding?.tfDni?.text.toString().trim()
-            loginManagementViewModel.authenticateUser(dni, "13")
+            // TODO: days change
+            loginManagementViewModel.authenticateUser(dni, dayCurrent)
         }
 
         lifecycleScope.launch {
@@ -123,7 +123,7 @@ class LoginInAppFragment : Fragment(R.layout.fragment_login_in_app) {
 
                     }
 
-                    Resource.PreLoad -> Toast.makeText(requireActivity(), "Precargando elecciones", Toast.LENGTH_LONG).show()
+                    Resource.PreLoad -> print( "Precargando elecciones")
                 }
             }
 

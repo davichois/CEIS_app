@@ -122,9 +122,11 @@
                     app:shapeAppearanceOverlay="@style/roundImageSpeakersCards" />
 
                 <TextView
+                    android:focusable="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivAvatarSpeaker"
+                    android:clickable="true"
                     android:layout_marginStart="@dimen/_6sdp"
                     android:textColor="#002147"
                     android:textSize="@dimen/_10ssp"
@@ -194,7 +196,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll_place_event"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/seals_events_student">
 
                 <ImageView
                     android:contentDescription="@string/dash"

@@ -5,7 +5,7 @@ import com.davichois.ceis.data.remote.dto.SpeakerEventDTO
 
 data class EventModel (
     val id: Long,
-    val name: String,
+    val name: String?,
     val date: String,
     val endDate: String,
     val place: String,

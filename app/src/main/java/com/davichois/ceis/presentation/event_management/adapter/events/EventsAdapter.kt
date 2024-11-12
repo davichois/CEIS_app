@@ -1,7 +1,9 @@
 package com.davichois.ceis.presentation.event_management.adapter.events
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.davichois.ceis.R
 import com.davichois.ceis.domain.model.EventModel
@@ -20,6 +22,7 @@ class EventsAdapter(
 
     override fun getItemCount(): Int = events.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
         val item = events[position]
         holder.render(item, onSelectedEvent)

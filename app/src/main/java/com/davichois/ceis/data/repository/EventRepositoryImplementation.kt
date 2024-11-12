@@ -5,8 +5,10 @@ import com.davichois.ceis.data.remote.EventAPI
 import com.davichois.ceis.data.remote.dto.AttendanceRegisterDTO
 import com.davichois.ceis.data.remote.dto.EventDTO
 import com.davichois.ceis.data.remote.dto.GenerateCodeDTO
+import com.davichois.ceis.data.remote.dto.ResponseAPI
 import com.davichois.ceis.data.remote.dto.toEventModel
 import com.davichois.ceis.domain.model.EventModel
+import com.davichois.ceis.domain.model.toEventDTO
 import com.davichois.ceis.domain.repository.EventRepository
 import retrofit2.HttpException
 import java.io.IOException
@@ -122,6 +124,27 @@ class EventRepositoryImplementation(
         }
     }
 
+    override suspend fun getEventForDayMaster(
+        token: String,
+        day: String
+    ): Resource<List<EventModel>> {
+        return try {
+            val result =
+                api.getEventForDayMaster(token, day).data.map { eventDTO -> eventDTO.toEventModel() }
+            Resource.Success(data = result)
+        } catch (e: HttpException) {
+            if (e.code() == 401) {
+                val result =
+                    api.getEventForDayMaster(token, day).data.map { eventDTO -> eventDTO.toEventModel() }
+                Resource.Success(data = result)
+            } else {
+                Resource.Error(message = e.localizedMessage ?: "An unexpected error")
+            }
+        } catch (e: IOException) {
+            Resource.Error(message = "Couldn't reach server")
+        }
+    }
+
     override suspend fun getEventForAll(token: String): Resource<Map<String, List<EventDTO>>> {
         return try {
             val result =
@@ -143,17 +166,17 @@ class EventRepositoryImplementation(
     override suspend fun postBookingRecorder(
         token: String,
         dni: String,
-        code: String
-    ): Resource<AttendanceRegisterDTO> {
+        event: List<EventModel>
+    ): Resource<String> {
         return try {
             val result =
-                api.postBookingRecorder(token, dni, code).data
+                api.postBookingRecorder(token, dni, event.map { eventModel -> eventModel.toEventDTO() }).data
             Resource.Success(data = result)
         } catch (e: HttpException) {
             when(e.code()){
                 401 -> {
                     val result =
-                        api.postBookingRecorder(token, dni, code).data
+                        api.postBookingRecorder(token, dni, event.map { eventModel -> eventModel.toEventDTO() }).data
                     Resource.Success(data = result)
                 }
                 300 -> {

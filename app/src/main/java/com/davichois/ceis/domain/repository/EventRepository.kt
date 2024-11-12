@@ -36,6 +36,11 @@ interface EventRepository {
         type: String
     ): Resource<List<EventModel>>
 
+    suspend fun getEventForDayMaster(
+        token: String,
+        day: String,
+    ): Resource<List<EventModel>>
+
     suspend fun getEventForAll(
         token: String
     ): Resource<Map<String, List<EventDTO>>>
@@ -43,7 +48,7 @@ interface EventRepository {
     suspend fun postBookingRecorder(
         token: String,
         dni: String,
-        code: String,
-    ): Resource<AttendanceRegisterDTO>
+        event: List<EventModel>
+    ): Resource<String>
 
 }

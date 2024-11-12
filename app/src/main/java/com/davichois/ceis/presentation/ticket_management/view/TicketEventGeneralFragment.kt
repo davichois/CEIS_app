@@ -24,6 +24,7 @@ import com.davichois.ceis.R
 import com.davichois.ceis.core.common.Resource
 import com.davichois.ceis.databinding.FragmentTicketEventGeneralBinding
 import com.davichois.ceis.presentation.ticket_management.view_model.TicketManagementViewModel
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -82,11 +83,19 @@ class TicketEventGeneralFragment : Fragment(R.layout.fragment_ticket_event_gener
                             "F" -> "andrea"
                             else -> "andrea"
                         }
+                        if (state.data.avatar.isNullOrBlank()){
+                            binding?.imageUserCard?.setImageResource(R.drawable.not_user)
+                        } else {
+                            Picasso.get().load(state.data.avatar).into(binding?.imageUserCard)
+                        }
+
+                        /*
                         requireContext().resources?.let {
                             binding?.riveAnimationAvatar?.setRiveResource(
                                 it.getIdentifier(avatar, "raw", requireContext().packageName)
                             )
                         }
+                         */
 
                         ticketLayout = binding?.clBadgeTicket!!
                     }

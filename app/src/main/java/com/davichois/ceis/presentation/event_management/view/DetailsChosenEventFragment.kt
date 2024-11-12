@@ -1,16 +1,19 @@
 package com.davichois.ceis.presentation.event_management.view
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,8 +27,10 @@ import com.davichois.ceis.databinding.FragmentGenerateCodeAssistanceBinding
 import com.davichois.ceis.presentation.event_management.dialog.CodeQrDialog
 import com.davichois.ceis.presentation.event_management.view_model.AssistanceEventViewModel
 import com.davichois.ceis.presentation.event_management.view_model.EventManagementViewModel
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_event) {
@@ -59,6 +64,7 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
         activity?.window?.statusBarColor = Color.rgb(237,241,253)
 
         eventManagementViewModel.getEventForCode(args.eventCode)
+        eventManagementViewModel.verifiedRoleUser()
 
         // Not Master
         binding?.clQrScan?.setOnClickListener {
@@ -102,15 +108,76 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
                         binding?.backStage?.setOnClickListener {
                             findNavController().popBackStack()
                         }
+                        if (speakerPrincipal.image.isNullOrBlank()){
+                            binding?.ivAvatarSpeaker?.setImageResource(R.drawable.not_user)
+                        } else {
+                            Picasso.get().load(speakerPrincipal.image).into(binding?.ivAvatarSpeaker)
+                        }
                         binding?.eventTitle?.text = data.name
-                        binding?.nameSpeaker?.text = speakerPrincipal.name
-                        "${speakerPrincipal.degree}, ${speakerPrincipal.function}".also { binding?.vocationPerson?.text = it }
+                        ("${speakerPrincipal.degree}" +
+                                "${speakerPrincipal.name}").also { binding?.nameSpeaker?.text = it }
+                        if (speakerPrincipal.function.isNullOrBlank()){
+                            "".also { binding?.vocationPerson?.text = it }
+                        } else {
+                            "${speakerPrincipal.function}".also { binding?.vocationPerson?.text = it }
+                        }
                         binding?.placeEvent?.text = data.place
+                        val textView = binding?.nameSpeaker
+                        textView?.paintFlags = textView?.paintFlags?.or(Paint.UNDERLINE_TEXT_FLAG)!!
+                        binding?.nameSpeaker?.setOnClickListener {
+                            val url = speakerPrincipal.profile
+                            if (url.isNullOrEmpty()) {
+                                Toast.makeText(requireActivity(), "No tiene link", Toast.LENGTH_SHORT).show()
+                            } else {
+                                val completeUrl = if (url.startsWith("https://")) {
+                                    url
+                                } else {
+                                    "https://$url"
+                                }
+                                openURL(completeUrl)
+                            }
+                        }
 
                     }
                     is Resource.Error -> {
                         binding?.contentDCE?.visibility = View.VISIBLE
                         binding?.loadShimmerDCE?.visibility = View.GONE
+                        println("error: ${state.message}")
+                        // Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
+                    }
+
+                    Resource.PreLoad -> {
+                        println("Reload")
+                        // Toast.makeText(requireActivity(), "Bienvenido", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            eventManagementViewModel.uiStateRoleUser.collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        // 1==MASTER, 2==NO
+                        when(state.data){
+                            "STAFF" -> {
+                                binding?.accessMaster?.visibility = View.VISIBLE
+                                binding?.sealsEventsStudent?.visibility = View.INVISIBLE
+                            }
+                            "STUDENT" -> {
+                                binding?.accessMaster?.visibility = View.INVISIBLE
+                                binding?.sealsEventsStudent?.visibility = View.VISIBLE
+                            }
+                            else ->{
+                                binding?.accessMaster?.visibility = View.INVISIBLE
+                                binding?.sealsEventsStudent?.visibility = View.VISIBLE
+                            }
+                        }
+
+                    }
+                    is Resource.Error -> {
                         println("error: ${state.message}")
                         // Toast.makeText(requireActivity(), "error", Toast.LENGTH_LONG).show()
                     }
@@ -234,6 +301,13 @@ class DetailsChosenEventFragment : Fragment(R.layout.fragment_details_chosen_eve
         }
 
         timer.start()
+    }
+
+    private fun openURL(link: String) {
+        val uri = Uri.parse(link)
+        val ite = Intent(Intent.ACTION_VIEW, uri)
+
+        startActivity(ite)
     }
 
 }

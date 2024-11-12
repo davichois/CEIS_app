@@ -1,7 +1,5 @@
 package com.davichois.ceis.presentation.login_management.view_model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davichois.ceis.core.common.Resource
@@ -12,7 +10,6 @@ import com.davichois.ceis.domain.use_case.preferences.GetUserPreferenceUseCase
 import com.davichois.ceis.domain.use_case.preferences.PostUserPreferenceUseCase
 import com.davichois.ceis.domain.use_case.user.GetRecordersUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -38,33 +35,50 @@ class LoginManagementViewModel @Inject constructor(
 
     fun authenticateUser(dni: String, day: String) {
         viewModelScope.launch {
+
             _uiStateLogin.value = Resource.Loading
             try {
                 when(val result = postAuthenticateUseCase(dni = dni)) {
                     is Resource.Success -> {
                         _uiStateLogin.value = Resource.Success(data = result.data)
-                        postUserPreferenceUseCase(UserPreference(dni = dni, dia12 = false, dia13 = false, dia14 = false,
-                            dia15 = false
-                        ))
-                        _uiStateNavigate.value = Resource.Success(data = run {
-                            val numRecords = getRecordersUserUseCase(day, dni = dni)
-
-                            fun getValueBasedOnRecordCount(minRecords: Int): Int {
-                                return if (numRecords.size >= minRecords) 2 else 1
+                        postUserPreferenceUseCase(UserPreference(dni = dni, role = result.data.rol))
+                        when (result.data.rol) {
+                            "STAFF" -> {
+                                _uiStateNavigate.value = Resource.Success(data = 2)
                             }
+                            "STUDENT" -> {
+                                _uiStateNavigate.value = Resource.Success(data = run {
+                                    val numRecords = getRecordersUserUseCase(day, dni = dni)
 
-                            when(day) {
-                                "12" -> getValueBasedOnRecordCount(4)
-                                "13", "14" -> getValueBasedOnRecordCount(2)
-                                "15" -> 2
-                                else -> 2
+                                    fun getValueBasedOnRecordCount(minRecords: Int): Int {
+                                        return if (numRecords.size >= minRecords) 2 else 1
+                                    }
+
+                                    when(day) {
+                                        "12" -> getValueBasedOnRecordCount(4)
+                                        "13", "14" -> getValueBasedOnRecordCount(2)
+                                        else -> 2  // Valor por defecto para otros días
+                                    }
+                                })
                             }
-                        })
+                            else -> _uiStateNavigate.value = Resource.Success(data = run {
+                                val numRecords = getRecordersUserUseCase(day, dni = dni)
+
+                                fun getValueBasedOnRecordCount(minRecords: Int): Int {
+                                    return if (numRecords.size >= minRecords) 2 else 1
+                                }
+
+                                when(day) {
+                                    "12" -> getValueBasedOnRecordCount(4)
+                                    "13", "14" -> getValueBasedOnRecordCount(2)
+                                    else -> 2  // Valor por defecto para otros días
+                                }
+                            })
+                        }
                     }
                     is Resource.Error -> {
                         _uiStateLogin.value = Resource.Error("Error al login")
                     }
-
                     else -> {
                         _uiStateLogin.value = Resource.Loading
                     }
@@ -75,23 +89,28 @@ class LoginManagementViewModel @Inject constructor(
         }
     }
 
+
     fun getVerifiedAccountInAppInitialized(day: String) {
         viewModelScope.launch {
             _uiStateNavigateSplash.value = Resource.Loading
             try {
                 val dni = getUserPreferenceUseCase().dni
+                val role = getUserPreferenceUseCase().role
                 _uiStateNavigateSplash.value = Resource.Success(data = if (dni.isNotBlank()) {
                     val numRecords = getRecordersUserUseCase(day)
 
                     fun getValueBasedOnRecordCount(minRecords: Int): Int {
-                        return if (numRecords.size >= minRecords) 3 else 1
+                        return when (role) {
+                            "STAFF" -> 3
+                            "STUDENT" -> if (numRecords.size >= minRecords) 3 else 1
+                            else -> if (numRecords.size >= minRecords) 3 else 1
+                        }
                     }
 
                     when(day) {
                         "12" -> getValueBasedOnRecordCount(4)
                         "13", "14" -> getValueBasedOnRecordCount(2)  // Para 13 y 14, lógica es la misma
-                        "15" -> 3  // Para el día 15, siempre es 1
-                        else -> 3  // Para otros días, puedes poner un valor por defecto
+                        else -> 3  // Para otros días, valor por defecto
                     }
                 } else {
                     2
@@ -101,5 +120,6 @@ class LoginManagementViewModel @Inject constructor(
             }
         }
     }
+
 
 }

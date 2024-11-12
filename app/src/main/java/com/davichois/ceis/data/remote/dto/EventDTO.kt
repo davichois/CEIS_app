@@ -4,7 +4,7 @@ import com.davichois.ceis.domain.model.EventModel
 
 data class EventDTO (
     val id: Long,
-    val name: String,
+    val name: String?,
     val date: String,
     val endDate: String,
     val place: String,

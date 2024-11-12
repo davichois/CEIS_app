@@ -24,7 +24,7 @@ class TicketManagementViewModel @Inject constructor(
     fun getUserForDNI() {
         viewModelScope.launch {
             _uiStateUser.value = Resource.Loading
-            delay(2000)
+            delay(500)
             try {
                 when(val result = getUserForDNIUseCase()) {
                     is Resource.Success -> {

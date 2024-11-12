@@ -4,12 +4,12 @@
     <string name="type_conf">CONF24</string>
     <string name="action_login">LOG IN</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--  <string name="hello_blank_fragment">Hello blank fragment</string> -->
     <string name="ceis">CEIS.</string>
     <string name="conf">conf</string>
     <string name="backstage">backStage</string>
     <string name="info_ceis_conf_date">12–15 NOV, 2024, TARAPOTO - PERÚ</string>
-    <string name="alert_send">Ingrese su numero de DNI si ya se registró en la CEIS.conf 2024.</string>
+    <string name="alert_send">Si ya te registraste en la CEIS.conf 2024, ingresa tu número de DNI aquí.</string>
     <string name="dni">DNI*</string>
     <string name="join_now">UNIRSE AHORA</string>
     <string name="generate_code">GENERAR CODIGO</string>
