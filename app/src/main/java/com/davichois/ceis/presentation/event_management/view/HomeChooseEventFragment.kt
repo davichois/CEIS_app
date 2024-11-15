@@ -60,6 +60,8 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
         // TODO: days change
         eventManagementViewModel.getEventForChooseForDay(dayCurrent)
 
+        binding?.rvListEventChoose?.itemAnimator = null
+
         when(dayCurrent){
             "12" -> {
                 binding?.infoDate?.text = "DIA <01/>"
@@ -136,6 +138,7 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
                         // Toast.makeText(requireActivity(), "correct ${state.data.size}", Toast.LENGTH_SHORT).show()
 
                         val filteredEventList = state.data.filter { it.quota > 0 }
+                        // initRecyclerView(eventList = filteredEventList)
                         initRecyclerView(eventList = filteredEventList)
                     }
                     is Resource.Error -> {
@@ -151,6 +154,7 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
                 }
             }
         }
+
     }
 
     private fun initRecyclerView(eventList: List<EventModel>) {
@@ -160,12 +164,13 @@ class HomeChooseEventFragment : Fragment(R.layout.fragment_home_choose_event) {
         binding?.rvListEventChoose?.adapter = ChooseEventAdapter(eventList) { evento, isChecked ->
             manageSelection(evento, isChecked)
         }
+
     }
 
     private fun manageSelection(evento: EventModel, isChecked: Boolean) {
         if (isChecked){
-            evento.isSelected = true
             eventsChose.add(evento)
+            evento.isSelected = true
         } else {
             eventsChose.remove(evento)
             evento.isSelected = false

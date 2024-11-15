@@ -110,7 +110,8 @@ class EventAttendanceStampFragment : Fragment(R.layout.fragment_event_attendance
                     is Resource.Error -> {
                         binding?.contentEAS?.visibility = View.VISIBLE
                         binding?.loadShimmerEAS?.visibility = View.GONE
-                        Toast.makeText(requireActivity(), "error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), "error ${state}", Toast.LENGTH_SHORT).show()
+
                         println(state.message)
                     }
 

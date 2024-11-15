@@ -106,7 +106,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:background="@drawable/cf_background_input"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     android:letterSpacing="0.1"
                     android:singleLine="true"
                     android:textColorHighlight="@color/white"
